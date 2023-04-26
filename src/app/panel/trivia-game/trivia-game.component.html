@@ -1,0 +1,751 @@
+<app-header></app-header>
+
+<header class="header0 container-fluid0 sticky-top" id="header0">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <div class="container-fluid"> <span class="header_toggle pt-50" data-bs-toggle="offcanvas"
+                data-bs-target="#staticBackdrop" aria-controls="staticBackdrop"> <i class='bx bx-menu'
+                    id="header-toggle"></i> </span>
+
+            <span class="h5 text-white">Live video trivia quiz game</span>
+        </div>
+
+    </nav>
+</header>
+<div class="pt-2 top-space container-fluid">
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-9" style="text-align: center;">
+                <div id="my_camera" style="width: 250px; margin: auto;">
+                    <canvas id="canvas" style="border: 1px solid #d3d3d3; width: inherit;"></canvas>
+                    <p>
+                        <video id="localVideo" autoplay muted controls playsinline width="720" height="1280"
+                            style="display: none;"></video>
+                    </p>
+                </div>
+
+                <button *ngIf="this.socialChannelData" (click)="goLive(this.socialChannelData)"
+                    class="btn btn-success me-2" [disabled]="isSend">Start</button>
+                <button *ngIf="!this.socialChannelData" class="btn btn-success me-2" data-bs-toggle="modal"
+                    data-bs-target="#instalogin" [disabled]="isSend">Start</button>
+                <button *ngIf="this.socialChannelData" (click)="StopPublishing()" class="btn btn-danger"
+                    [disabled]="!isSend">End</button>
+                <button *ngIf="!this.socialChannelData" class="btn btn-danger" [disabled]="!isSend">End</button>
+
+            </div>
+            <!-- <div class="col-md-4" style="text-align: left;" *ngIf="this.streamUrl">
+            <iframe width="400" height="320" [src]="this.streamUrl" frameborder="0" allowfullscreen></iframe>
+        </div> -->
+            <div class="col-md-3">
+
+                <h4>Apply Changes before going Live.</h4>
+
+                <div class="eTabBody mLayers d-flex flex-column">
+                    <div class="eTabHeader d-flex flex-row">
+                        <div class="eTabHeaderItem mTitle">Layers</div>
+                    </div>
+                    <div class="eSidebarLayersWrap custom-scrollbar">
+                        <div>
+                            <ul>
+                                <li class="sidebar-layer" draggable="false" *ngIf="!isSend">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <button type="button"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default"
+                                            data-bs-toggle="modal" data-bs-target="#game-popup">
+                                            <span> QUESTIONS CONFIG </span>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="sidebar-layer" draggable="false" *ngIf="!isSend">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <button type="button"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default"
+                                            data-bs-toggle="modal" data-bs-target="#GAMEAPPEARANCECONFIG">
+                                            <span> GAME APPEARANCE CONFIG </span>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="sidebar-layer" draggable="false" *ngIf="isSend">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <button type="button" *ngIf="!this.timerPause" (click)="pauseGame()"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default">
+                                            <span> Pause Game </span>
+                                        </button>
+                                        <button type="button" *ngIf="this.timerPause" (click)="resumeGame()"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default">
+                                            <span> Resume Game </span>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="sidebar-layer" draggable="false" *ngIf="isSend">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <button type="button" *ngIf="qi < questionArrayLength && (!showSkipEndButton)"
+                                            [disabled]="!showSkipButton" (click)="skipNextQuestion()"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default">
+                                            <span> Skip to Question {{qi+2}} </span>
+                                        </button>
+                                        <button type="button" *ngIf="showSkipEndButton"
+                                            [disabled]="qi == 0 || (!showSkipButton)" (click)="gameEnd()"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default">
+                                            <span> Skip to game end </span>
+                                        </button>
+                                    </div>
+                                </li>
+                                <!-- <li class="sidebar-layer" draggable="false" *ngIf="isSend">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <button type="button" class="btn btn-outline-primary el-button w-100 el-button--default">
+                                            <span> Display LeaderBoard </span>
+                                        </button>
+                                    </div>
+                                </li> -->
+                                <li class="sidebar-layer" draggable="false" *ngIf="isSend">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <button type="button" *ngIf="!this.timerPause" (click)="showWinnerScreen()"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default">
+                                            <span> Show LeaderBoard </span>
+                                        </button>
+                                        <button type="button" *ngIf="this.timerPause" (click)="hideWinnerScreen()"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default">
+                                            <span> Hide LeaderBoard </span>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="sidebar-layer" draggable="false" *ngIf="isSend">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <a type="button" target="_blank" routerLink="/trivia-result/{{streamId}}"
+                                            class="btn btn-outline-primary el-button w-100 el-button--default">
+                                            <span> Open LeaderBoard </span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <!-- <li class="sidebar-layer" draggable="false" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasRight3" aria-controls="offcanvasRight3">
+                                <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                    <div class="eLineAndNameWrap d-flex flex-row">
+                                        <input data-draggable="true" readonly maxlength="19" class="eInputName"
+                                            value="Prize Image">
+                                        <div class="eIconWrap d-flex justify-content-center align-items-center">
+                                            <svg data-v-bcfda1e8="" version="1.1" viewBox="0 0 50 50"
+                                                class="eIconBase svg-icon svg-fill" style="width: 14px; height: 12px;">
+                                                <path fill="#A5A5A5" stroke="none" pid="0"
+                                                    d="M1 43.94A5.067 5.067 0 006.06 49h37.88A5.067 5.067 0 0049 43.94V6.06A5.067 5.067 0 0043.94 1H6.06A5.067 5.067 0 001 6.06v37.88zm42.94 2.657H6.06a2.666 2.666 0 01-2.657-2.658v-6.326l9.102-9.102 7.777 7.778c.471.47 1.226.47 1.697 0l14.045-14.045 10.573 10.573v11.122a2.666 2.666 0 01-2.658 2.658zM6.06 3.403h37.88a2.666 2.666 0 012.657 2.658v23.353l-9.73-9.72a1.196 1.196 0 00-1.696 0L21.126 33.739l-7.778-7.778a1.196 1.196 0 00-1.697 0L3.403 34.21V6.06A2.666 2.666 0 016.06 3.404z"
+                                                    _fill="#00f" _stroke="#00f" stroke-width=".2"></path>
+                                                <path fill="#A5A5A5" stroke="none" pid="1"
+                                                    d="M15.879 20.233a6.118 6.118 0 006.11-6.11c0-3.364-2.746-6.11-6.11-6.11-3.364 0-6.11 2.746-6.11 6.11a6.118 6.118 0 006.11 6.11zm0-9.817a3.71 3.71 0 013.707 3.707 3.717 3.717 0 01-3.707 3.708 3.717 3.717 0 01-3.707-3.708 3.71 3.71 0 013.707-3.707z"
+                                                    _fill="#00f" _stroke="#00f" stroke-width=".2"></path>
+                                            </svg>
+                                            <svg version="1.1" viewBox="0 0 8 18" class="eIconMove svg-icon svg-fill"
+                                                style="width: 8px; height: 18px;">
+                                                <path fill="#A5A5A5" stroke="none" pid="0"
+                                                    d="M7.105 12.676H5.578V4.574h1.527c.222 0 .41-.077.565-.232a.768.768 0 00.232-.565.768.768 0 00-.232-.564L4.814.357A.768.768 0 004.25.125a.768.768 0 00-.564.232L.83 3.213a.768.768 0 00-.232.564c0 .222.077.41.232.565a.769.769 0 00.565.232h1.527v8.102H1.395a.769.769 0 00-.565.232.769.769 0 00-.232.565c0 .221.077.41.232.564l2.856 2.856a.769.769 0 00.564.232c.221 0 .41-.078.564-.232l2.856-2.856a.768.768 0 00.232-.564.769.769 0 00-.232-.565.769.769 0 00-.565-.232z"
+                                                    _fill="#A5A5A5"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="eActionsWrap d-flex flex-row justify-content-end">
+                                        <div
+                                            class="eActionIconBtn mShowHide d-flex justify-content-center align-items-center">
+                                            <svg version="1.1" viewBox="0 0 14 13" class="eIcon svg-icon svg-fill"
+                                                style="width: 14px; height: 13px;">
+                                                <path fill="#A5A5A5" stroke="none" pid="0"
+                                                    d="M6.398 8.914a3.084 3.084 0 01-1.664-.68 3.267 3.267 0 01-1.007-1.453A3.007 3.007 0 013.657 5l2.741 3.914zm.352.774a6.44 6.44 0 01-3.281-.868A6.54 6.54 0 011.125 6.5a6.477 6.477 0 012.063-2.156l-.633-.914a7.484 7.484 0 00-2.39 2.507C.054 6.11 0 6.298 0 6.5c0 .203.055.39.164.563A7.502 7.502 0 002.906 9.78a7.46 7.46 0 003.844 1.031c.313 0 .625-.015.938-.046l-.75-1.079H6.75zm6.586-2.626a7.263 7.263 0 01-1.453 1.782 7.46 7.46 0 01-1.899 1.265l1.125 1.618c.047.062.063.125.047.187a.3.3 0 01-.117.188l-.492.351c-.063.047-.133.063-.211.047a.219.219 0 01-.164-.117L2.39 1.273c-.047-.062-.063-.125-.047-.187A.3.3 0 012.46.898l.492-.351A.254.254 0 013.164.5a.22.22 0 01.164.117L4.641 2.47a7.981 7.981 0 012.109-.281 7.46 7.46 0 013.844 1.03 7.501 7.501 0 012.742 2.72c.11.171.164.359.164.562 0 .203-.055.39-.164.563zm-.961-.562a6.465 6.465 0 00-2.133-2.18 6.473 6.473 0 00-2.93-.984c-.25.25-.375.555-.375.914 0 .36.125.672.375.938.266.25.579.375.938.375.36 0 .664-.125.914-.375.266-.266.399-.579.399-.938.359.672.46 1.39.304 2.156a3.084 3.084 0 01-1.172 1.875l.633.89a6.674 6.674 0 001.735-1.1A6.009 6.009 0 0012.374 6.5z"
+                                                    _fill="#A5A5A5"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="sidebar-layer" draggable="false" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasRight4" aria-controls="offcanvasRight4">
+                                <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                    <div class="eLineAndNameWrap d-flex flex-row">
+                                        <input data-draggable="true" readonly maxlength="19" class="eInputName"
+                                            value="Prize Timer">
+                                        <div class="eIconWrap d-flex justify-content-center align-items-center">
+                                            <svg data-v-bcfda1e8="" version="1.1" viewBox="0 0 13 12"
+                                                class="eIconBase svg-icon svg-fill" style="width: 14px; height: 12px;">
+                                                <path fill="#A5A5A5" stroke="none" pid="0"
+                                                    d="M3.288 5.178a.741.741 0 01.54-.235c.202 0 .374.078.515.235.156.14.234.312.234.515a.741.741 0 01-.234.54.701.701 0 01-.516.21.782.782 0 01-.539-.21.782.782 0 01-.21-.54c0-.203.07-.375.21-.515zm2.625 0a.741.741 0 01.54-.235c.202 0 .374.078.515.235.156.14.234.312.234.515a.741.741 0 01-.234.54.701.701 0 01-.516.21.782.782 0 01-.539-.21.782.782 0 01-.21-.54c0-.203.07-.375.21-.515zm2.625 0a.741.741 0 01.54-.235c.202 0 .374.078.515.235.156.14.234.312.234.515a.741.741 0 01-.234.54.701.701 0 01-.516.21.782.782 0 01-.539-.21.782.782 0 01-.21-.54c0-.203.07-.375.21-.515zM2.21 2.248C3.382 1.295 4.796.818 6.452.818c1.656 0 3.07.477 4.242 1.43 1.172.953 1.758 2.102 1.758 3.445 0 1.344-.586 2.493-1.758 3.446-1.172.953-2.586 1.43-4.242 1.43-.734 0-1.46-.11-2.18-.329-1.015.719-2.101 1.078-3.257 1.078a.514.514 0 01-.516-.351.51.51 0 01.094-.586 4.604 4.604 0 00.656-.867c.188-.297.336-.586.445-.868C.866 7.771.452 6.787.452 5.693c0-1.343.586-2.492 1.758-3.445zm4.242 7.195c1.344 0 2.492-.367 3.445-1.101.954-.735 1.43-1.617 1.43-2.649 0-1.03-.476-1.914-1.43-2.648-.953-.734-2.101-1.102-3.445-1.102-1.344 0-2.492.368-3.445 1.102-.953.734-1.43 1.617-1.43 2.648 0 .797.313 1.524.938 2.18l.468.516-.234.656a7.732 7.732 0 01-.469.96c.469-.155.914-.39 1.336-.702l.469-.305.539.164a6.035 6.035 0 001.828.281z"
+                                                    _fill="#000"></path>
+                                            </svg>
+                                            <svg version="1.1" viewBox="0 0 8 18" class="eIconMove svg-icon svg-fill"
+                                                style="width: 8px; height: 18px;">
+                                                <path fill="#A5A5A5" stroke="none" pid="0"
+                                                    d="M7.105 12.676H5.578V4.574h1.527c.222 0 .41-.077.565-.232a.768.768 0 00.232-.565.768.768 0 00-.232-.564L4.814.357A.768.768 0 004.25.125a.768.768 0 00-.564.232L.83 3.213a.768.768 0 00-.232.564c0 .222.077.41.232.565a.769.769 0 00.565.232h1.527v8.102H1.395a.769.769 0 00-.565.232.769.769 0 00-.232.565c0 .221.077.41.232.564l2.856 2.856a.769.769 0 00.564.232c.221 0 .41-.078.564-.232l2.856-2.856a.768.768 0 00.232-.564.769.769 0 00-.232-.565.769.769 0 00-.565-.232z"
+                                                    _fill="#A5A5A5"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="eActionsWrap d-flex flex-row justify-content-end">
+                                        <div
+                                            class="eActionIconBtn mShowHide d-flex justify-content-center align-items-center">
+                                            <svg version="1.1" viewBox="0 0 14 13" class="eIcon svg-icon svg-fill"
+                                                style="width: 14px; height: 13px;">
+                                                <path fill="#A5A5A5" stroke="none" pid="0"
+                                                    d="M6.398 8.914a3.084 3.084 0 01-1.664-.68 3.267 3.267 0 01-1.007-1.453A3.007 3.007 0 013.657 5l2.741 3.914zm.352.774a6.44 6.44 0 01-3.281-.868A6.54 6.54 0 011.125 6.5a6.477 6.477 0 012.063-2.156l-.633-.914a7.484 7.484 0 00-2.39 2.507C.054 6.11 0 6.298 0 6.5c0 .203.055.39.164.563A7.502 7.502 0 002.906 9.78a7.46 7.46 0 003.844 1.031c.313 0 .625-.015.938-.046l-.75-1.079H6.75zm6.586-2.626a7.263 7.263 0 01-1.453 1.782 7.46 7.46 0 01-1.899 1.265l1.125 1.618c.047.062.063.125.047.187a.3.3 0 01-.117.188l-.492.351c-.063.047-.133.063-.211.047a.219.219 0 01-.164-.117L2.39 1.273c-.047-.062-.063-.125-.047-.187A.3.3 0 012.46.898l.492-.351A.254.254 0 013.164.5a.22.22 0 01.164.117L4.641 2.47a7.981 7.981 0 012.109-.281 7.46 7.46 0 013.844 1.03 7.501 7.501 0 012.742 2.72c.11.171.164.359.164.562 0 .203-.055.39-.164.563zm-.961-.562a6.465 6.465 0 00-2.133-2.18 6.473 6.473 0 00-2.93-.984c-.25.25-.375.555-.375.914 0 .36.125.672.375.938.266.25.579.375.938.375.36 0 .664-.125.914-.375.266-.266.399-.579.399-.938.359.672.46 1.39.304 2.156a3.084 3.084 0 01-1.172 1.875l.633.89a6.674 6.674 0 001.735-1.1A6.009 6.009 0 0012.374 6.5z"
+                                                    _fill="#A5A5A5"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="game-popup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Trivia questions configuration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="generatetriviaQuestionForm">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="questionNumber" name="questionNumber"
+                                    formControlName="questionNumber">
+                                <h6> Question Number (Choose between 1-10)</h6>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <button type="button" class="btn0 btn-primary0"
+                                    (click)="generateTriviaQuestions()">Generate
+                                    new questions</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row mb-4">
+                        <div class="form-group col-md-3">
+                            <button type="button" class="btn0 btn-primary0" data-bs-toggle="modal"
+                                data-bs-target="#addQuestion-popup">Add new question in DB</button>
+                        </div>
+                        <div class="form-group col-md-3" *ngIf="this.questionId">
+                            <button type="button" class="btn btn-danger" (click)="deleteAllTriviaQuestion()">Delete All
+                                Questions</button>
+                        </div>
+                    </div>
+                    <div class="border-style" *ngFor="let questarr of questionArray let i= index">
+                        <div class="row">
+                            <div class="form-group col-md-10">
+                                <h6>Question #{{i+1}}<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" id="inputEmail4" value="{{questarr.question}}">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <button class="btn btn-danger" (click)="deleteTriviaQuestion(questarr.id)"> <i
+                                        class="fa fa-trash"></i> </button>
+                            </div>
+                        </div>
+                        <div class="row" *ngFor="let questopt of questarr.options">
+                            <div class="form-group col-md-6" *ngIf="questopt.is_correct == '1'">
+                                <h6>Correct<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" id="inputPassword4"
+                                    value="{{questopt.options}}">
+                            </div>
+                        </div>
+                        <div class="row" *ngFor="let questopt of questarr.options">
+                            <div class="col-md-6">
+                                <h6 *ngIf="questopt.is_correct == '0'">Incorrect<span class="text-danger">*</span></h6>
+                                <div class="form-group" *ngIf="questopt.is_correct == '0'">
+                                    <input type="text" class="form-control" id="" value="{{questopt.options}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="GAMEAPPEARANCECONFIG" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <form [formGroup]="triviaQuestionForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Trivia game configuration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Start screen</h5>
+                    <div class="border-style">
+                        <h5>Start screen</h5>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Title<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS1Title" id="gameS1Title"
+                                    formControlName="gameS1Title" (keyup)="triviaGameSave()">
+                            </div>
+                            <!-- <div class="form-group col-md-6">
+                                <h6>Title Padding<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS1TitlePadding" id="gameS1TitlePadding"
+                                    formControlName="gameS1TitlePadding" (keyup)="triviaGameSave()">
+                            </div> -->
+                            <div class="form-group col-md-6">
+                                <h6>Subtitle<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS1Subtitle" id="gameS1Subtitle"
+                                    formControlName="gameS1Subtitle" (keyup)="triviaGameSave()">
+                            </div>
+                            <!-- <div class="form-group col-md-6">
+                                <h6>Subtitle Padding<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS1SubtitlePadding" id="gameS1SubtitlePadding"
+                                    formControlName="gameS1SubtitlePadding" (keyup)="triviaGameSave()">
+                            </div> -->
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Timer (Minute)<span class="text-danger">*</span></h6>
+                                <select class="form-control" name="gameS1Timer" id="gameS1Timer"
+                                    formControlName="gameS1Timer" (change)="triviaGameSave()">
+                                    <option value="" hidden>Select Time for Timer</option>
+                                    <option *ngFor="let s1Timer of s1TimerList;" value="{{s1Timer}}">{{s1Timer}} Minutes
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Text color<span class="text-danger">*</span></h6>
+                                <input type="color" class="form-control formColor" name="gameS1Color" id="gameS1Color"
+                                    formControlName="gameS1Color" (change)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Text font<span class="text-danger">*</span></h6>
+                                <select class="form-control" name="gameS1Font" id="gameS1Font"
+                                    formControlName="gameS1Font" (change)="triviaGameSave()">
+                                    <option value="" hidden>Select Text Font</option>
+                                    <option *ngFor="let fontFamily of fontFamilyList;" value="{{fontFamily}}"
+                                        style="font-family: '{{fontFamily}}', sans-serif;">{{fontFamily}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12" (change)="triviaGameSave()">
+                                <h6>Background image<span class="text-danger">*</span></h6>
+                                <label>
+                                    <input type="radio" name="gameS1BgImg" id="gameS1BgImg" class="mx-2"
+                                        formControlName="gameS1BgImg" value="1">
+                                    <img src="../../../assets/images/bg1.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS1BgImg" id="gameS1BgImg" class="mx-2"
+                                        formControlName="gameS1BgImg" value="2">
+                                    <img src="../../../assets/images/bgimg2.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS1BgImg" id="gameS1BgImg" class="mx-2"
+                                        formControlName="gameS1BgImg" value="3">
+                                    <img src="../../../assets/images/bgimg3.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS1BgImg" id="gameS1BgImg" class="mx-2"
+                                        formControlName="gameS1BgImg" value="4">
+                                    <img src="../../../assets/images/bgimg4.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS1BgImg" id="gameS1BgImg" class="mx-2"
+                                        formControlName="gameS1BgImg" value="5">
+                                    <img src="../../../assets/images/bgimg1.jpg" alt="Option 1" height="100px">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-style">
+                        <h5>Game screen</h5>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Question<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS2Question" id="gameS2Question"
+                                    formControlName="gameS2Question" (keyup)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Game explanation
+                                    <span class="text-danger">*</span>
+                                </h6>
+                                <input type="text" class="form-control" name="gameS2GameExp" id="gameS2GameExp"
+                                    formControlName="gameS2GameExp" (keyup)="triviaGameSave()">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Timer (in seconds)(Minimum 25 seconds And Maximum 90 seconds)<span
+                                        class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS2Timer" id="gameS2Timer"
+                                    formControlName="gameS2Timer" (change)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Text color<span class="text-danger">*</span></h6>
+                                <input type="color" class="form-control formColor" name="gameS2Color" id="gameS2Color"
+                                    formControlName="gameS2Color" (change)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Text font<span class="text-danger">*</span></h6>
+                                <select class="form-control" name="gameS2Font" id="gameS2Font"
+                                    formControlName="gameS2Font" (change)="triviaGameSave()">
+                                    <option value="" hidden>Select Text Font</option>
+                                    <option *ngFor="let fontFamily of fontFamilyList;" value="{{fontFamily}}"
+                                        style="font-family: '{{fontFamily}}', sans-serif;">{{fontFamily}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12" (change)="triviaGameSave()">
+                                <h6>Background image<span class="text-danger">*</span></h6>
+                                <label>
+                                    <input type="radio" name="gameS2BgImg" id="gameS2BgImg" class="mx-2"
+                                        formControlName="gameS2BgImg" value="1">
+                                    <img src="../../../assets/images/bg1.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS2BgImg" id="gameS2BgImg" class="mx-2"
+                                        formControlName="gameS2BgImg" value="2">
+                                    <img src="../../../assets/images/bgimg2.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS2BgImg" id="gameS2BgImg" class="mx-2"
+                                        formControlName="gameS2BgImg" value="3">
+                                    <img src="../../../assets/images/bgimg3.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS2BgImg" id="gameS2BgImg" class="mx-2"
+                                        formControlName="gameS2BgImg" value="4">
+                                    <img src="../../../assets/images/bgimg4.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS2BgImg" id="gameS2BgImg" class="mx-2"
+                                        formControlName="gameS2BgImg" value="5">
+                                    <img src="../../../assets/images/bgimg1.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <!-- <div class="preview hide">
+                                    <img src="../../../assets/images/bg1.jpg" class="image_to_upload" height="250" />
+                                </div><br> -->
+                                <!-- <input type="file" id="myFile" name="filename"> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-style">
+                        <h5>Question end screen</h5>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Results of question<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS3ResultOfQuest"
+                                    id="gameS3ResultOfQuest" formControlName="gameS3ResultOfQuest"
+                                    (keyup)="triviaGameSave()">
+                            </div>
+                            <!-- <div class="form-group col-md-6">
+                                <h6>Others
+                                    <span class="text-danger">*</span>
+                                </h6>
+                                <input type="text" class="form-control" name="gameS3Others" id="gameS3Others"
+                                formControlName="gameS3Others" (keyup)="triviaGameSave()">
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Next question<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS3NextQuest" id="gameS3NextQuest"
+                                    formControlName="gameS3NextQuest" (keyup)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Computing answers label
+                                    <span class="text-danger">*</span>
+                                </h6>
+                                <input type="text" class="form-control" name="gameS3ComputingAns"
+                                    id="gameS3ComputingAns" formControlName="gameS3ComputingAns"
+                                    (keyup)="triviaGameSave()">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Timer (in seconds)(Minimum 25 seconds And Maximum 90 seconds)<span
+                                        class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS3Timer" id="gameS3Timer"
+                                    formControlName="gameS3Timer" (change)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Text color<span class="text-danger">*</span></h6>
+                                <input type="color" class="form-control formColor" name="gameS3Color" id="gameS3Color"
+                                    formControlName="gameS3Color" (change)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Option color<span class="text-danger">*</span></h6>
+                                <input type="color" class="form-control formColor" name="gameS3OptionColor"
+                                    id="gameS3OptionColor" formControlName="gameS3OptionColor"
+                                    (change)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Text font<span class="text-danger">*</span></h6>
+                                <select class="form-control" name="gameS3Font" id="gameS3Font"
+                                    formControlName="gameS3Font" (change)="triviaGameSave()">
+                                    <option value="" hidden>Select Text Font</option>
+                                    <option *ngFor="let fontFamily of fontFamilyList;" value="{{fontFamily}}"
+                                        style="font-family: '{{fontFamily}}', sans-serif;">{{fontFamily}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12" (change)="triviaGameSave()">
+                                <h6>Background image<span class="text-danger">*</span></h6>
+                                <label>
+                                    <input type="radio" name="gameS3BgImg" id="gameS3BgImg" class="mx-2"
+                                        formControlName="gameS3BgImg" value="1">
+                                    <img src="../../../assets/images/bg1.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS3BgImg" id="gameS3BgImg" class="mx-2"
+                                        formControlName="gameS3BgImg" value="2">
+                                    <img src="../../../assets/images/bgimg2.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS3BgImg" id="gameS3BgImg" class="mx-2"
+                                        formControlName="gameS3BgImg" value="3">
+                                    <img src="../../../assets/images/bgimg3.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS3BgImg" id="gameS3BgImg" class="mx-2"
+                                        formControlName="gameS3BgImg" value="4">
+                                    <img src="../../../assets/images/bgimg4.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS3BgImg" id="gameS3BgImg" class="mx-2"
+                                        formControlName="gameS3BgImg" value="5">
+                                    <img src="../../../assets/images/bgimg1.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <!-- <div class="preview hide">
+                                    <img src="../../../assets/images/bg1.jpg" class="image_to_upload" height="250" />
+                                </div><br> -->
+                                <!-- <input type="file" id="myFile" name="filename"> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-style">
+                        <h5>Game end screen</h5>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Leader board<span class="text-danger">*</span></h6>
+                                <input type="text" class="form-control" name="gameS4Leaderboard" id="gameS4Leaderboard"
+                                    formControlName="gameS4Leaderboard" (keyup)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Winners
+                                    <span class="text-danger">*</span>
+                                </h6>
+                                <input type="text" class="form-control" name="gameS4Winners" id="gameS4Winners"
+                                    formControlName="gameS4Winners" (keyup)="triviaGameSave()">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <h6>Text color<span class="text-danger">*</span></h6>
+                                <input type="color" class="form-control formColor" name="gameS4Color" id="gameS4Color"
+                                    formControlName="gameS4Color" (change)="triviaGameSave()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <h6>Text font<span class="text-danger">*</span></h6>
+                                <select class="form-control" name="gameS4Font" id="gameS4Font"
+                                    formControlName="gameS4Font" (change)="triviaGameSave()">
+                                    <option value="" hidden>Select Text Font</option>
+                                    <option *ngFor="let fontFamily of fontFamilyList;" value="{{fontFamily}}"
+                                        style="font-family: '{{fontFamily}}', sans-serif;">{{fontFamily}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12" (change)="triviaGameSave()">
+                                <h6>Background image<span class="text-danger">*</span></h6>
+                                <label>
+                                    <input type="radio" name="gameS4BgImg" id="gameS4BgImg" class="mx-2"
+                                        formControlName="gameS4BgImg" value="1">
+                                    <img src="../../../assets/images/bg1.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS4BgImg" id="gameS4BgImg" class="mx-2"
+                                        formControlName="gameS4BgImg" value="2">
+                                    <img src="../../../assets/images/bgimg2.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS4BgImg" id="gameS4BgImg" class="mx-2"
+                                        formControlName="gameS4BgImg" value="3">
+                                    <img src="../../../assets/images/bgimg3.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS4BgImg" id="gameS4BgImg" class="mx-2"
+                                        formControlName="gameS4BgImg" value="4">
+                                    <img src="../../../assets/images/bgimg4.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <label>
+                                    <input type="radio" name="gameS4BgImg" id="gameS4BgImg" class="mx-2"
+                                        formControlName="gameS4BgImg" value="5">
+                                    <img src="../../../assets/images/bgimg1.jpg" alt="Option 1" height="100px">
+                                </label>
+                                <!-- <div class="preview hide">
+                                    <img src="../../../assets/images/bg1.jpg" class="image_to_upload" height="250" />
+                                </div><br> -->
+                                <!-- <input type="file" id="myFile" name="filename"> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="updateTriviaGame()"
+                        data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addQuestion-popup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Add question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Questions count</h6>
+                    <div class="border-style">
+                        <form [formGroup]="addTriviaQuestionForm" (ngSubmit)="addNewTriviaQuestion()">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <h6>Question<span class="text-danger">*</span></h6>
+                                    <input type="text" class="form-control" id="question" name="question"
+                                        formControlName="question">
+                                    <div *ngIf="this.addTriviaQuestionForm.invalid && f['question'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f['question'].errors['required']">Question is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <h6>Correct<span class="text-danger">*</span></h6>
+                                    <input type="text" class="form-control" id="option1" name="option1"
+                                        formControlName="option1">
+                                    <div *ngIf="this.addTriviaQuestionForm.invalid && f['option1'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f['option1'].errors['required']">Correct Option is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h6>Incorrect<span class="text-danger">*</span></h6>
+                                <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" id="option2" name="option2"
+                                        formControlName="option2">
+                                    <div *ngIf="this.addTriviaQuestionForm.invalid && f['option2'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f['option2'].errors['required']">Incorrect Option 1 is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" id="option3" name="option3"
+                                        formControlName="option3">
+                                    <div *ngIf="this.addTriviaQuestionForm.invalid && f['option3'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f['option3'].errors['required']">Incorrect Option 2 is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" id="option4" name="option4"
+                                        formControlName="option4">
+                                    <div *ngIf="this.addTriviaQuestionForm.invalid && f['option4'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f['option4'].errors['required']">Incorrect Option 3 is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary"
+                                [disabled]="this.addTriviaQuestionForm.invalid" data-bs-dismiss="modal"
+                                aria-label="Close">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="instalogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Select Platforms To Go Live</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="followers">
+                        <li *ngIf="!this.facebookConnected">
+                            <div class="friend-meta">
+                                <h4>
+                                    <a class="social-titles">Facebook </a>
+                                </h4>
+                                <a routerLink="/connectSocials"> <button class="btn btn-primary" data-bs-dismiss="modal"
+                                        aria-label="Close">Connect</button></a>
+                            </div>
+                        </li>
+                        <li *ngIf="this.facebookConnected">
+                            <div class="friend-meta">
+                                <h4>
+                                    <a class="social-titles">Facebook </a>
+                                </h4>
+                                <input type="checkbox" (click)="addNew('facebook')" id="Facebook"
+                                    [disabled]="!this.facebookConnected">
+                            </div>
+                        </li>
+                        <li *ngIf="!this.instagramConnected">
+                            <div class="friend-meta">
+                                <h4>
+                                    <a class="social-titles">Instagram </a>
+                                </h4>
+                                <a routerLink="/connectSocials"> <button class="btn btn-primary" data-bs-dismiss="modal"
+                                        aria-label="Close">Connect</button></a>
+                            </div>
+                        </li>
+                        <li *ngIf="this.instagramConnected">
+                            <div class="friend-meta">
+                                <h4>
+                                    <a class="social-titles">Instagram </a>
+                                </h4>
+                                <input type="checkbox" (click)="addNew('instagram')" id="Instagram"
+                                    [disabled]="!this.instagramConnected">
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn btn-success me-2" data-bs-dismiss="modal" aria-label="Close" [disabled]="isSend"
+                        *ngIf="this.socialChannelData" (click)="goLive(this.socialChannelData)">Go Live</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

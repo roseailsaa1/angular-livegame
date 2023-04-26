@@ -1,0 +1,1060 @@
+<app-header></app-header>
+
+<header class="header0 container-fluid0 sticky-top" id="header0">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       
+       <div class="container-fluid"> <span class="header_toggle pt-50" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop"
+            aria-controls="staticBackdrop"> <i class='bx bx-menu' id="header-toggle"></i> </span>
+  
+        <span class="h5 text-white">Live video last comment game</span>
+    </div>
+
+</nav>
+</header>
+<div class="pt-2 top-space container-fluid">
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-9" style="text-align: center;">
+                <div id="my_camera" style="width:100%;">
+                    <canvas id="canvas" style="border:1px solid #d3d3d3;"></canvas>
+                    <p>
+                        <video id="localVideo" autoplay muted controls playsinline width="720" height="480"
+                            style="display: none;"></video>
+                    </p>
+                </div>
+                <button *ngIf="this.socialChannelData" (click)="goLive(this.socialChannelData)"
+                    class="btn btn-success me-2" [disabled]="isSend">Start</button>
+                <button *ngIf="!this.socialChannelData" class="btn btn-success me-2" data-bs-toggle="modal"
+                    data-bs-target="#instalogin" [disabled]="isSend">Start</button>
+                <button *ngIf="this.socialChannelData" (click)="StopPublishing()" class="btn btn-danger"
+                    [disabled]="!isSend">End</button>
+                <button *ngIf="!this.socialChannelData" class="btn btn-danger" [disabled]="!isSend">End</button>
+
+            </div>
+            <!-- <div class="col-md-4" style="text-align: left;" *ngIf="this.streamUrl">
+                <iframe width="400" height="320" [src]="this.streamUrl" frameborder="0" allowfullscreen></iframe>
+            </div> -->
+            <div class="col-md-3">
+                <!-- <h3>Stream video will play here automatically
+                    when it is live</h3> -->
+                <h4>Apply Changes to on going streaming.</h4>
+
+                <div class="eTabBody mLayers d-flex flex-column">
+                    <div class="eTabHeader d-flex flex-row">
+                        <div class="eTabHeaderItem mTitle">Layers</div>
+                    </div>
+                    <div class="eSidebarLayersWrap custom-scrollbar">
+                        <div>
+                            <ul>
+                                <li class="sidebar-layer" draggable="false" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <div class="eLineAndNameWrap d-flex flex-row">
+                                            <input data-draggable="true" readonly maxlength="19" class="eInputName"
+                                                value="Title">
+                                            <div class="eIconWrap d-flex justify-content-center align-items-center">
+                                                <svg version="1.1" viewBox="0 0 48 42"
+                                                    class="eIconBase svg-icon svg-fill"
+                                                    style="width: 14px; height: 12px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M34.293 2.83V.028a9.958 9.958 0 00-.75-.027l-1.128.027-.188.214a2.195 2.195 0 01-.563.43c-.25.142-.501.205-.752.187L30 .805h-7.862l-5.77-.027-3.086.027-.51.08H9.284C5.867.885 3.98.84 3.622.751L2.173.026 0 .055v10.277c.215.304.715.698 1.502 1.18.126 0 .31-.116.55-.348a2.01 2.01 0 00.524-.86c.196-.59.411-1.34.644-2.253.232-.912.43-1.584.59-2.013.16-.429.357-.724.59-.885.286-.197.939-.416 1.959-.657 1.02-.242 1.914-.363 2.683-.363 1.968 0 3.292.054 3.971.16a.714.714 0 01.376.162c.072.072.125.206.161.402.036.197.054.707.054 1.53 0 .823-.005 1.74-.014 2.75-.008 1.012-.004 2.072.014 3.18l.134 11.485c.036 4.311-.018 8.185-.161 11.619-.054.626-.161 1.127-.322 1.503-.358.214-1.78.662-4.267 1.341-1.038.286-1.744.724-2.12 1.315v.241l.027.697c0 .072.018.304.054.698.393 0 1.02-.035 1.878-.107 2.594-.25 4.678-.376 6.252-.376 2.97 0 5.099.071 6.387.214 1.377.18 3.05.268 5.018.268.358 0 .662-.009.912-.026.054-.34.081-.6.081-.778 0-.09-.045-.537-.134-1.342A7.19 7.19 0 0026 38.586a66.925 66.925 0 01-1.153-.322c-.501-.144-.895-.26-1.181-.35-.286-.089-.447-.133-.483-.133-.715-.126-1.511-.412-2.388-.86a7.189 7.189 0 01-.295-2.28l.027-3.945-.08-9.634v-8.907l-.028-4.078c-.036-.698.036-1.914.215-3.65.59-.09 1.19-.134 1.798-.134.77 0 1.762-.009 2.979-.027a202.49 202.49 0 012.777-.027c.635 0 1.015.018 1.14.054.25.072.492.242.725.51.035.036.089.295.16.778.072.483.175 1.069.31 1.757.134.69.272 1.248.416 1.678.518 1.52 1.001 2.665 1.448 3.435.519-.054 1.128-.215 1.825-.484.072-.34.107-.796.107-1.368l.027-1.557-.027-2.682-.027-3.53zM46.798 34.347h-2.147V6.869h2.147c.59 0 .966-.165 1.127-.496.161-.331.063-.73-.295-1.195L44.25.832c-.358-.466-.797-.698-1.315-.698-.518 0-.957.232-1.314.698l-3.382 4.346c-.357.466-.455.864-.295 1.195.16.33.537.496 1.127.496h2.147v27.478H39.07c-.59 0-.966.165-1.127.497-.16.33-.062.729.295 1.194l3.382 4.347c.357.465.796.697 1.314.697.519 0 .957-.232 1.315-.697l3.381-4.347c.358-.465.456-.864.295-1.194-.16-.332-.536-.497-1.127-.497z"
+                                                        _fill="#00f"></path>
+                                                </svg>
+                                                <svg version="1.1" viewBox="0 0 8 18"
+                                                    class="eIconMove svg-icon svg-fill"
+                                                    style="width: 8px; height: 18px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M7.105 12.676H5.578V4.574h1.527c.222 0 .41-.077.565-.232a.768.768 0 00.232-.565.768.768 0 00-.232-.564L4.814.357A.768.768 0 004.25.125a.768.768 0 00-.564.232L.83 3.213a.768.768 0 00-.232.564c0 .222.077.41.232.565a.769.769 0 00.565.232h1.527v8.102H1.395a.769.769 0 00-.565.232.769.769 0 00-.232.565c0 .221.077.41.232.564l2.856 2.856a.769.769 0 00.564.232c.221 0 .41-.078.564-.232l2.856-2.856a.768.768 0 00.232-.564.769.769 0 00-.232-.565.769.769 0 00-.565-.232z"
+                                                        _fill="#A5A5A5"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="eActionsWrap d-flex flex-row justify-content-end">
+                                            <div
+                                                class="eActionIconBtn mShowHide d-flex justify-content-center align-items-center">
+                                                <svg version="1.1" viewBox="0 0 14 13" class="eIcon svg-icon svg-fill"
+                                                    style="width: 14px; height: 13px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M6.398 8.914a3.084 3.084 0 01-1.664-.68 3.267 3.267 0 01-1.007-1.453A3.007 3.007 0 013.657 5l2.741 3.914zm.352.774a6.44 6.44 0 01-3.281-.868A6.54 6.54 0 011.125 6.5a6.477 6.477 0 012.063-2.156l-.633-.914a7.484 7.484 0 00-2.39 2.507C.054 6.11 0 6.298 0 6.5c0 .203.055.39.164.563A7.502 7.502 0 002.906 9.78a7.46 7.46 0 003.844 1.031c.313 0 .625-.015.938-.046l-.75-1.079H6.75zm6.586-2.626a7.263 7.263 0 01-1.453 1.782 7.46 7.46 0 01-1.899 1.265l1.125 1.618c.047.062.063.125.047.187a.3.3 0 01-.117.188l-.492.351c-.063.047-.133.063-.211.047a.219.219 0 01-.164-.117L2.39 1.273c-.047-.062-.063-.125-.047-.187A.3.3 0 012.46.898l.492-.351A.254.254 0 013.164.5a.22.22 0 01.164.117L4.641 2.47a7.981 7.981 0 012.109-.281 7.46 7.46 0 013.844 1.03 7.501 7.501 0 012.742 2.72c.11.171.164.359.164.562 0 .203-.055.39-.164.563zm-.961-.562a6.465 6.465 0 00-2.133-2.18 6.473 6.473 0 00-2.93-.984c-.25.25-.375.555-.375.914 0 .36.125.672.375.938.266.25.579.375.938.375.36 0 .664-.125.914-.375.266-.266.399-.579.399-.938.359.672.46 1.39.304 2.156a3.084 3.084 0 01-1.172 1.875l.633.89a6.674 6.674 0 001.735-1.1A6.009 6.009 0 0012.374 6.5z"
+                                                        _fill="#A5A5A5"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="sidebar-layer" draggable="false" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasRight2" aria-controls="offcanvasRight2">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <div class="eLineAndNameWrap d-flex flex-row">
+                                            <input data-draggable="true" readonly maxlength="19" class="eInputName"
+                                                value="Subtitle">
+                                            <div class="eIconWrap d-flex justify-content-center align-items-center">
+                                                <svg version="1.1" viewBox="0 0 48 42"
+                                                    class="eIconBase svg-icon svg-fill"
+                                                    style="width: 14px; height: 12px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M34.293 2.83V.028a9.958 9.958 0 00-.75-.027l-1.128.027-.188.214a2.195 2.195 0 01-.563.43c-.25.142-.501.205-.752.187L30 .805h-7.862l-5.77-.027-3.086.027-.51.08H9.284C5.867.885 3.98.84 3.622.751L2.173.026 0 .055v10.277c.215.304.715.698 1.502 1.18.126 0 .31-.116.55-.348a2.01 2.01 0 00.524-.86c.196-.59.411-1.34.644-2.253.232-.912.43-1.584.59-2.013.16-.429.357-.724.59-.885.286-.197.939-.416 1.959-.657 1.02-.242 1.914-.363 2.683-.363 1.968 0 3.292.054 3.971.16a.714.714 0 01.376.162c.072.072.125.206.161.402.036.197.054.707.054 1.53 0 .823-.005 1.74-.014 2.75-.008 1.012-.004 2.072.014 3.18l.134 11.485c.036 4.311-.018 8.185-.161 11.619-.054.626-.161 1.127-.322 1.503-.358.214-1.78.662-4.267 1.341-1.038.286-1.744.724-2.12 1.315v.241l.027.697c0 .072.018.304.054.698.393 0 1.02-.035 1.878-.107 2.594-.25 4.678-.376 6.252-.376 2.97 0 5.099.071 6.387.214 1.377.18 3.05.268 5.018.268.358 0 .662-.009.912-.026.054-.34.081-.6.081-.778 0-.09-.045-.537-.134-1.342A7.19 7.19 0 0026 38.586a66.925 66.925 0 01-1.153-.322c-.501-.144-.895-.26-1.181-.35-.286-.089-.447-.133-.483-.133-.715-.126-1.511-.412-2.388-.86a7.189 7.189 0 01-.295-2.28l.027-3.945-.08-9.634v-8.907l-.028-4.078c-.036-.698.036-1.914.215-3.65.59-.09 1.19-.134 1.798-.134.77 0 1.762-.009 2.979-.027a202.49 202.49 0 012.777-.027c.635 0 1.015.018 1.14.054.25.072.492.242.725.51.035.036.089.295.16.778.072.483.175 1.069.31 1.757.134.69.272 1.248.416 1.678.518 1.52 1.001 2.665 1.448 3.435.519-.054 1.128-.215 1.825-.484.072-.34.107-.796.107-1.368l.027-1.557-.027-2.682-.027-3.53zM46.798 34.347h-2.147V6.869h2.147c.59 0 .966-.165 1.127-.496.161-.331.063-.73-.295-1.195L44.25.832c-.358-.466-.797-.698-1.315-.698-.518 0-.957.232-1.314.698l-3.382 4.346c-.357.466-.455.864-.295 1.195.16.33.537.496 1.127.496h2.147v27.478H39.07c-.59 0-.966.165-1.127.497-.16.33-.062.729.295 1.194l3.382 4.347c.357.465.796.697 1.314.697.519 0 .957-.232 1.315-.697l3.381-4.347c.358-.465.456-.864.295-1.194-.16-.332-.536-.497-1.127-.497z"
+                                                        _fill="#00f"></path>
+                                                </svg>
+                                                <svg version="1.1" viewBox="0 0 8 18"
+                                                    class="eIconMove svg-icon svg-fill"
+                                                    style="width: 8px; height: 18px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M7.105 12.676H5.578V4.574h1.527c.222 0 .41-.077.565-.232a.768.768 0 00.232-.565.768.768 0 00-.232-.564L4.814.357A.768.768 0 004.25.125a.768.768 0 00-.564.232L.83 3.213a.768.768 0 00-.232.564c0 .222.077.41.232.565a.769.769 0 00.565.232h1.527v8.102H1.395a.769.769 0 00-.565.232.769.769 0 00-.232.565c0 .221.077.41.232.564l2.856 2.856a.769.769 0 00.564.232c.221 0 .41-.078.564-.232l2.856-2.856a.768.768 0 00.232-.564.769.769 0 00-.232-.565.769.769 0 00-.565-.232z"
+                                                        _fill="#A5A5A5"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="eActionsWrap d-flex flex-row justify-content-end">
+                                            <div
+                                                class="eActionIconBtn mShowHide d-flex justify-content-center align-items-center">
+                                                <svg version="1.1" viewBox="0 0 14 13" class="eIcon svg-icon svg-fill"
+                                                    style="width: 14px; height: 13px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M6.398 8.914a3.084 3.084 0 01-1.664-.68 3.267 3.267 0 01-1.007-1.453A3.007 3.007 0 013.657 5l2.741 3.914zm.352.774a6.44 6.44 0 01-3.281-.868A6.54 6.54 0 011.125 6.5a6.477 6.477 0 012.063-2.156l-.633-.914a7.484 7.484 0 00-2.39 2.507C.054 6.11 0 6.298 0 6.5c0 .203.055.39.164.563A7.502 7.502 0 002.906 9.78a7.46 7.46 0 003.844 1.031c.313 0 .625-.015.938-.046l-.75-1.079H6.75zm6.586-2.626a7.263 7.263 0 01-1.453 1.782 7.46 7.46 0 01-1.899 1.265l1.125 1.618c.047.062.063.125.047.187a.3.3 0 01-.117.188l-.492.351c-.063.047-.133.063-.211.047a.219.219 0 01-.164-.117L2.39 1.273c-.047-.062-.063-.125-.047-.187A.3.3 0 012.46.898l.492-.351A.254.254 0 013.164.5a.22.22 0 01.164.117L4.641 2.47a7.981 7.981 0 012.109-.281 7.46 7.46 0 013.844 1.03 7.501 7.501 0 012.742 2.72c.11.171.164.359.164.562 0 .203-.055.39-.164.563zm-.961-.562a6.465 6.465 0 00-2.133-2.18 6.473 6.473 0 00-2.93-.984c-.25.25-.375.555-.375.914 0 .36.125.672.375.938.266.25.579.375.938.375.36 0 .664-.125.914-.375.266-.266.399-.579.399-.938.359.672.46 1.39.304 2.156a3.084 3.084 0 01-1.172 1.875l.633.89a6.674 6.674 0 001.735-1.1A6.009 6.009 0 0012.374 6.5z"
+                                                        _fill="#A5A5A5"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="sidebar-layer" draggable="false" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasRight3" aria-controls="offcanvasRight3">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <div class="eLineAndNameWrap d-flex flex-row">
+                                            <input data-draggable="true" readonly maxlength="19" class="eInputName"
+                                                value="Prize Image">
+                                            <div class="eIconWrap d-flex justify-content-center align-items-center">
+                                                <svg data-v-bcfda1e8="" version="1.1" viewBox="0 0 50 50"
+                                                    class="eIconBase svg-icon svg-fill"
+                                                    style="width: 14px; height: 12px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M1 43.94A5.067 5.067 0 006.06 49h37.88A5.067 5.067 0 0049 43.94V6.06A5.067 5.067 0 0043.94 1H6.06A5.067 5.067 0 001 6.06v37.88zm42.94 2.657H6.06a2.666 2.666 0 01-2.657-2.658v-6.326l9.102-9.102 7.777 7.778c.471.47 1.226.47 1.697 0l14.045-14.045 10.573 10.573v11.122a2.666 2.666 0 01-2.658 2.658zM6.06 3.403h37.88a2.666 2.666 0 012.657 2.658v23.353l-9.73-9.72a1.196 1.196 0 00-1.696 0L21.126 33.739l-7.778-7.778a1.196 1.196 0 00-1.697 0L3.403 34.21V6.06A2.666 2.666 0 016.06 3.404z"
+                                                        _fill="#00f" _stroke="#00f" stroke-width=".2"></path>
+                                                    <path fill="#A5A5A5" stroke="none" pid="1"
+                                                        d="M15.879 20.233a6.118 6.118 0 006.11-6.11c0-3.364-2.746-6.11-6.11-6.11-3.364 0-6.11 2.746-6.11 6.11a6.118 6.118 0 006.11 6.11zm0-9.817a3.71 3.71 0 013.707 3.707 3.717 3.717 0 01-3.707 3.708 3.717 3.717 0 01-3.707-3.708 3.71 3.71 0 013.707-3.707z"
+                                                        _fill="#00f" _stroke="#00f" stroke-width=".2"></path>
+                                                </svg>
+                                                <svg version="1.1" viewBox="0 0 8 18"
+                                                    class="eIconMove svg-icon svg-fill"
+                                                    style="width: 8px; height: 18px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M7.105 12.676H5.578V4.574h1.527c.222 0 .41-.077.565-.232a.768.768 0 00.232-.565.768.768 0 00-.232-.564L4.814.357A.768.768 0 004.25.125a.768.768 0 00-.564.232L.83 3.213a.768.768 0 00-.232.564c0 .222.077.41.232.565a.769.769 0 00.565.232h1.527v8.102H1.395a.769.769 0 00-.565.232.769.769 0 00-.232.565c0 .221.077.41.232.564l2.856 2.856a.769.769 0 00.564.232c.221 0 .41-.078.564-.232l2.856-2.856a.768.768 0 00.232-.564.769.769 0 00-.232-.565.769.769 0 00-.565-.232z"
+                                                        _fill="#A5A5A5"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="eActionsWrap d-flex flex-row justify-content-end">
+                                            <div
+                                                class="eActionIconBtn mShowHide d-flex justify-content-center align-items-center">
+                                                <svg version="1.1" viewBox="0 0 14 13" class="eIcon svg-icon svg-fill"
+                                                    style="width: 14px; height: 13px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M6.398 8.914a3.084 3.084 0 01-1.664-.68 3.267 3.267 0 01-1.007-1.453A3.007 3.007 0 013.657 5l2.741 3.914zm.352.774a6.44 6.44 0 01-3.281-.868A6.54 6.54 0 011.125 6.5a6.477 6.477 0 012.063-2.156l-.633-.914a7.484 7.484 0 00-2.39 2.507C.054 6.11 0 6.298 0 6.5c0 .203.055.39.164.563A7.502 7.502 0 002.906 9.78a7.46 7.46 0 003.844 1.031c.313 0 .625-.015.938-.046l-.75-1.079H6.75zm6.586-2.626a7.263 7.263 0 01-1.453 1.782 7.46 7.46 0 01-1.899 1.265l1.125 1.618c.047.062.063.125.047.187a.3.3 0 01-.117.188l-.492.351c-.063.047-.133.063-.211.047a.219.219 0 01-.164-.117L2.39 1.273c-.047-.062-.063-.125-.047-.187A.3.3 0 012.46.898l.492-.351A.254.254 0 013.164.5a.22.22 0 01.164.117L4.641 2.47a7.981 7.981 0 012.109-.281 7.46 7.46 0 013.844 1.03 7.501 7.501 0 012.742 2.72c.11.171.164.359.164.562 0 .203-.055.39-.164.563zm-.961-.562a6.465 6.465 0 00-2.133-2.18 6.473 6.473 0 00-2.93-.984c-.25.25-.375.555-.375.914 0 .36.125.672.375.938.266.25.579.375.938.375.36 0 .664-.125.914-.375.266-.266.399-.579.399-.938.359.672.46 1.39.304 2.156a3.084 3.084 0 01-1.172 1.875l.633.89a6.674 6.674 0 001.735-1.1A6.009 6.009 0 0012.374 6.5z"
+                                                        _fill="#A5A5A5"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="sidebar-layer" draggable="false" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasRight4" aria-controls="offcanvasRight4">
+                                    <div class="bLayer d-flex flex-row justify-content-between eDragHandle">
+                                        <div class="eLineAndNameWrap d-flex flex-row">
+                                            <input data-draggable="true" readonly maxlength="19" class="eInputName"
+                                                value="Prize Timer">
+                                            <div class="eIconWrap d-flex justify-content-center align-items-center">
+                                                <svg data-v-bcfda1e8="" version="1.1" viewBox="0 0 13 12"
+                                                    class="eIconBase svg-icon svg-fill"
+                                                    style="width: 14px; height: 12px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M3.288 5.178a.741.741 0 01.54-.235c.202 0 .374.078.515.235.156.14.234.312.234.515a.741.741 0 01-.234.54.701.701 0 01-.516.21.782.782 0 01-.539-.21.782.782 0 01-.21-.54c0-.203.07-.375.21-.515zm2.625 0a.741.741 0 01.54-.235c.202 0 .374.078.515.235.156.14.234.312.234.515a.741.741 0 01-.234.54.701.701 0 01-.516.21.782.782 0 01-.539-.21.782.782 0 01-.21-.54c0-.203.07-.375.21-.515zm2.625 0a.741.741 0 01.54-.235c.202 0 .374.078.515.235.156.14.234.312.234.515a.741.741 0 01-.234.54.701.701 0 01-.516.21.782.782 0 01-.539-.21.782.782 0 01-.21-.54c0-.203.07-.375.21-.515zM2.21 2.248C3.382 1.295 4.796.818 6.452.818c1.656 0 3.07.477 4.242 1.43 1.172.953 1.758 2.102 1.758 3.445 0 1.344-.586 2.493-1.758 3.446-1.172.953-2.586 1.43-4.242 1.43-.734 0-1.46-.11-2.18-.329-1.015.719-2.101 1.078-3.257 1.078a.514.514 0 01-.516-.351.51.51 0 01.094-.586 4.604 4.604 0 00.656-.867c.188-.297.336-.586.445-.868C.866 7.771.452 6.787.452 5.693c0-1.343.586-2.492 1.758-3.445zm4.242 7.195c1.344 0 2.492-.367 3.445-1.101.954-.735 1.43-1.617 1.43-2.649 0-1.03-.476-1.914-1.43-2.648-.953-.734-2.101-1.102-3.445-1.102-1.344 0-2.492.368-3.445 1.102-.953.734-1.43 1.617-1.43 2.648 0 .797.313 1.524.938 2.18l.468.516-.234.656a7.732 7.732 0 01-.469.96c.469-.155.914-.39 1.336-.702l.469-.305.539.164a6.035 6.035 0 001.828.281z"
+                                                        _fill="#000"></path>
+                                                </svg>
+                                                <svg version="1.1" viewBox="0 0 8 18"
+                                                    class="eIconMove svg-icon svg-fill"
+                                                    style="width: 8px; height: 18px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M7.105 12.676H5.578V4.574h1.527c.222 0 .41-.077.565-.232a.768.768 0 00.232-.565.768.768 0 00-.232-.564L4.814.357A.768.768 0 004.25.125a.768.768 0 00-.564.232L.83 3.213a.768.768 0 00-.232.564c0 .222.077.41.232.565a.769.769 0 00.565.232h1.527v8.102H1.395a.769.769 0 00-.565.232.769.769 0 00-.232.565c0 .221.077.41.232.564l2.856 2.856a.769.769 0 00.564.232c.221 0 .41-.078.564-.232l2.856-2.856a.768.768 0 00.232-.564.769.769 0 00-.232-.565.769.769 0 00-.565-.232z"
+                                                        _fill="#A5A5A5"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="eActionsWrap d-flex flex-row justify-content-end">
+                                            <div
+                                                class="eActionIconBtn mShowHide d-flex justify-content-center align-items-center">
+                                                <svg version="1.1" viewBox="0 0 14 13" class="eIcon svg-icon svg-fill"
+                                                    style="width: 14px; height: 13px;">
+                                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                                        d="M6.398 8.914a3.084 3.084 0 01-1.664-.68 3.267 3.267 0 01-1.007-1.453A3.007 3.007 0 013.657 5l2.741 3.914zm.352.774a6.44 6.44 0 01-3.281-.868A6.54 6.54 0 011.125 6.5a6.477 6.477 0 012.063-2.156l-.633-.914a7.484 7.484 0 00-2.39 2.507C.054 6.11 0 6.298 0 6.5c0 .203.055.39.164.563A7.502 7.502 0 002.906 9.78a7.46 7.46 0 003.844 1.031c.313 0 .625-.015.938-.046l-.75-1.079H6.75zm6.586-2.626a7.263 7.263 0 01-1.453 1.782 7.46 7.46 0 01-1.899 1.265l1.125 1.618c.047.062.063.125.047.187a.3.3 0 01-.117.188l-.492.351c-.063.047-.133.063-.211.047a.219.219 0 01-.164-.117L2.39 1.273c-.047-.062-.063-.125-.047-.187A.3.3 0 012.46.898l.492-.351A.254.254 0 013.164.5a.22.22 0 01.164.117L4.641 2.47a7.981 7.981 0 012.109-.281 7.46 7.46 0 013.844 1.03 7.501 7.501 0 012.742 2.72c.11.171.164.359.164.562 0 .203-.055.39-.164.563zm-.961-.562a6.465 6.465 0 00-2.133-2.18 6.473 6.473 0 00-2.93-.984c-.25.25-.375.555-.375.914 0 .36.125.672.375.938.266.25.579.375.938.375.36 0 .664-.125.914-.375.266-.266.399-.579.399-.938.359.672.46 1.39.304 2.156a3.084 3.084 0 01-1.172 1.875l.633.89a6.674 6.674 0 001.735-1.1A6.009 6.009 0 0012.374 6.5z"
+                                                        _fill="#A5A5A5"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-body0">
+                <div class="bSidebarWrap d-flex flex-column">
+                    <div class="eSidebarLayersWrap custom-scrollbar00">
+                        <div class="eHeaderBlock d-flex flex-row justify-content-between">
+                            <div class="eHeaderTitleWrap d-flex align-items-center">
+                                <svg version="1.1" viewBox="0 0 48 42" class="eHeaderTitleWrap_icon svg-icon svg-fill"
+                                    style="width: 14px; height: 12px;">
+                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                        d="M34.293 2.83V.028a9.958 9.958 0 00-.75-.027l-1.128.027-.188.214a2.195 2.195 0 01-.563.43c-.25.142-.501.205-.752.187L30 .805h-7.862l-5.77-.027-3.086.027-.51.08H9.284C5.867.885 3.98.84 3.622.751L2.173.026 0 .055v10.277c.215.304.715.698 1.502 1.18.126 0 .31-.116.55-.348a2.01 2.01 0 00.524-.86c.196-.59.411-1.34.644-2.253.232-.912.43-1.584.59-2.013.16-.429.357-.724.59-.885.286-.197.939-.416 1.959-.657 1.02-.242 1.914-.363 2.683-.363 1.968 0 3.292.054 3.971.16a.714.714 0 01.376.162c.072.072.125.206.161.402.036.197.054.707.054 1.53 0 .823-.005 1.74-.014 2.75-.008 1.012-.004 2.072.014 3.18l.134 11.485c.036 4.311-.018 8.185-.161 11.619-.054.626-.161 1.127-.322 1.503-.358.214-1.78.662-4.267 1.341-1.038.286-1.744.724-2.12 1.315v.241l.027.697c0 .072.018.304.054.698.393 0 1.02-.035 1.878-.107 2.594-.25 4.678-.376 6.252-.376 2.97 0 5.099.071 6.387.214 1.377.18 3.05.268 5.018.268.358 0 .662-.009.912-.026.054-.34.081-.6.081-.778 0-.09-.045-.537-.134-1.342A7.19 7.19 0 0026 38.586a66.925 66.925 0 01-1.153-.322c-.501-.144-.895-.26-1.181-.35-.286-.089-.447-.133-.483-.133-.715-.126-1.511-.412-2.388-.86a7.189 7.189 0 01-.295-2.28l.027-3.945-.08-9.634v-8.907l-.028-4.078c-.036-.698.036-1.914.215-3.65.59-.09 1.19-.134 1.798-.134.77 0 1.762-.009 2.979-.027a202.49 202.49 0 012.777-.027c.635 0 1.015.018 1.14.054.25.072.492.242.725.51.035.036.089.295.16.778.072.483.175 1.069.31 1.757.134.69.272 1.248.416 1.678.518 1.52 1.001 2.665 1.448 3.435.519-.054 1.128-.215 1.825-.484.072-.34.107-.796.107-1.368l.027-1.557-.027-2.682-.027-3.53zM46.798 34.347h-2.147V6.869h2.147c.59 0 .966-.165 1.127-.496.161-.331.063-.73-.295-1.195L44.25.832c-.358-.466-.797-.698-1.315-.698-.518 0-.957.232-1.314.698l-3.382 4.346c-.357.466-.455.864-.295 1.195.16.33.537.496 1.127.496h2.147v27.478H39.07c-.59 0-.966.165-1.127.497-.16.33-.062.729.295 1.194l3.382 4.347c.357.465.796.697 1.314.697.519 0 .957-.232 1.315-.697l3.381-4.347c.358-.465.456-.864.295-1.194-.16-.332-.536-.497-1.127-.497z"
+                                        _fill="#00f"></path>
+                                </svg>
+                                <h3 class="eHeaderTitle">Title</h3>
+                            </div>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <form [formGroup]="productForm">
+                            <div class="eBodyBlock custom-scrollbar">
+                                <div class="sidebar-settings-layer-text">
+                                    <div class="sidebar-settings-row">
+                                        <div class="sidebar-settings-text">
+                                            <div class="sidebar-settings-text__title">Text </div>
+                                            <div class="el-textarea el-input--small">
+                                                <textarea autocomplete="off" debounce="1000" maxlength="2000"
+                                                    class="el-textarea__inner" name="productTitle" id="productTitle"
+                                                    formControlName="productTitle" (keyup)="productSave()"
+                                                    style="min-height: 32px; height: 32px;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar-settings-row d-flex">
+                                        <div class="w-50 pr-5px">
+                                            <div class="bSettingBlock w-100">
+                                                <div class="sidebar-settings-title">Font family</div>
+                                                <div class="el-select w-100 el-select--small">
+                                                    <div class="el-input el-input--small el-input--suffix">
+                                                        <select class="el-input__inner" name="productTitleFont"
+                                                            id="productTitleFont" formControlName="productTitleFont"
+                                                            (change)="productSave()">
+                                                            <option value="" hidden>Select Title Font</option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Aleo, sans-serif"
+                                                                style="font-family: Aleo, sans-serif;">
+                                                                <span>Aleo</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Amatic SC, sans-serif"
+                                                                style="font-family: Amatic SC, sans-serif;">
+                                                                <span>Amatic SC</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Anton, sans-serif"
+                                                                style="font-family: Anton, sans-serif;">
+                                                                <span>Anton</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Cabin, sans-serif"
+                                                                style="font-family: Cabin, sans-serif;">
+                                                                <span>Cabin</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Charm, sans-serif"
+                                                                style="font-family: Charm, sans-serif;">
+                                                                <span>Charm</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Dancing Script, sans-serif"
+                                                                style="font-family: Dancing Script, sans-serif;">
+                                                                <span>Dancing Script</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Dosis, sans-serif"
+                                                                style="font-family: Dosis, sans-serif;">
+                                                                <span>Dosis</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Eczar, sans-serif"
+                                                                style="font-family: Eczar, sans-serif;">
+                                                                <span>Eczar</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Itim, sans-serif"
+                                                                style="font-family: Itim, sans-serif;">
+                                                                <span>Itim</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Kanit, sans-serif"
+                                                                style="font-family: Kanit, sans-serif;">
+                                                                <span>Kanit</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Lato, sans-serif"
+                                                                style="font-family: Lato, sans-serif;">
+                                                                <span>Lato</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Lobster, sans-serif"
+                                                                style="font-family: Lobster, sans-serif;">
+                                                                <span>Lobster</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Major Mono Display, sans-serif"
+                                                                style="font-family: Major Mono Display, sans-serif;">
+                                                                <span>Major Mono Display</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Montserrat, sans-serif"
+                                                                style="font-family: Montserrat, sans-serif;">
+                                                                <span>Montserrat</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item" selected
+                                                                value="Noto Serif JP, sans-serif"
+                                                                style="font-family: Noto Serif JP, sans-serif;">
+                                                                <span>Noto Serif JP</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Open Sans, sans-serif"
+                                                                style="font-family: Open Sans, sans-serif;">
+                                                                <span>Open Sans</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Oswald, sans-serif"
+                                                                style="font-family: Oswald, sans-serif;">
+                                                                <span>Oswald</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Pacifico, sans-serif"
+                                                                style="font-family: Pacifico, sans-serif;">
+                                                                <span>Pacifico</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Poppins, sans-serif"
+                                                                style="font-family: Poppins, sans-serif;">
+                                                                <span>Poppins</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Pridi, sans-serif"
+                                                                style="font-family: Pridi, sans-serif;">
+                                                                <span>Pridi</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Quicksand, sans-serif"
+                                                                style="font-family: Quicksand, sans-serif;">
+                                                                <span>Quicksand</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Raleway, sans-serif"
+                                                                style="font-family: Raleway, sans-serif;">
+                                                                <span>Raleway</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Righteous, sans-serif"
+                                                                style="font-family: Righteous, sans-serif;">
+                                                                <span>Righteous</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Roboto Condensed, sans-serif"
+                                                                style="font-family: Roboto Condensed, sans-serif;">
+                                                                <span>Roboto Condensed</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Roboto, sans-serif"
+                                                                style="font-family: Roboto, sans-serif;">
+                                                                <span>Roboto</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Rubik, sans-serif"
+                                                                style="font-family: Rubik, sans-serif;">
+                                                                <span>Rubik</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Thasadith, sans-serif"
+                                                                style="font-family: Thasadith, sans-serif;">
+                                                                <span>Thasadith</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Work Sans, sans-serif"
+                                                                style="font-family: Work Sans, sans-serif;">
+                                                                <span>Work Sans</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="29LT Bukra"
+                                                                style="font-family: 29LT Bukra;">
+                                                                <span>29LT Bukra</span>
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-50 pl-5px">
+                                            <div data-v-6f245d18="" class="bSettingBlock">
+                                                <div data-v-6f245d18="" class="sidebar-settings-title">Font size</div>
+                                                <div data-v-6f245d18=""
+                                                    class="eInput el-input-number el-input-number--small">
+                                                    <span role="button" class="el-input-number__decrease">
+                                                        <i (click)="decrementTitleSize()">
+                                                            <strong>-</strong>
+                                                        </i>
+                                                    </span>
+                                                    <span role="button" class="el-input-number__increase"
+                                                        (click)="incrementTitleSize()">
+                                                        <i>
+                                                            <strong>+</strong>
+                                                        </i>
+                                                    </span>
+                                                    <div class="el-input el-input--small">
+                                                        <input type="text" name="productTitleSize" id="productTitleSize"
+                                                            value="{{this.ptitleS}}" formControlName="productTitleSize"
+                                                            (keyup)="productSave()" autocomplete="off"
+                                                            class="el-input__inner" role="spinbutton">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar-settings-row d-flex">
+                                        <div class="col-lg-12 pr-5px">
+                                            <div data-v-312d3545="" class="bSettingBlock">
+                                                <div data-v-312d3545="" class="sidebar-settings-title">Font color</div>
+                                                <div data-v-312d3545="" class="eColorInput d-flex flex-row">
+                                                    <input type="color" name="productTitleColor" id="productTitleColor"
+                                                        formControlName="productTitleColor" (change)="productSave()">
+                                                    <div data-v-312d3545=""
+                                                        class="eColorText d-flex align-items-center">
+                                                        rgba(238,28,36,1)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="w-50 pl-5px">
+                                            <div data-v-312d3545="" class="bSettingBlock">
+                                                <div data-v-312d3545="" class="sidebar-settings-title">Background color
+                                                </div>
+                                                <div data-v-312d3545="" class="eColorInput d-flex flex-row">
+                                                    <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+                                                    <div data-v-312d3545="" class="eColorText d-flex align-items-center">
+                                                        rgba(166,166,166,0)</div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight2" aria-labelledby="offcanvasRightLabel2">
+            <div class="offcanvas-body0">
+                <div class="bSidebarWrap d-flex flex-column">
+                    <div class="eSidebarLayersWrap custom-scrollbar00">
+                        <div class="eHeaderBlock d-flex flex-row justify-content-between">
+                            <div class="eHeaderTitleWrap d-flex align-items-center">
+                                <svg version="1.1" viewBox="0 0 48 42" class="eHeaderTitleWrap_icon svg-icon svg-fill"
+                                    style="width: 14px; height: 12px;">
+                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                        d="M34.293 2.83V.028a9.958 9.958 0 00-.75-.027l-1.128.027-.188.214a2.195 2.195 0 01-.563.43c-.25.142-.501.205-.752.187L30 .805h-7.862l-5.77-.027-3.086.027-.51.08H9.284C5.867.885 3.98.84 3.622.751L2.173.026 0 .055v10.277c.215.304.715.698 1.502 1.18.126 0 .31-.116.55-.348a2.01 2.01 0 00.524-.86c.196-.59.411-1.34.644-2.253.232-.912.43-1.584.59-2.013.16-.429.357-.724.59-.885.286-.197.939-.416 1.959-.657 1.02-.242 1.914-.363 2.683-.363 1.968 0 3.292.054 3.971.16a.714.714 0 01.376.162c.072.072.125.206.161.402.036.197.054.707.054 1.53 0 .823-.005 1.74-.014 2.75-.008 1.012-.004 2.072.014 3.18l.134 11.485c.036 4.311-.018 8.185-.161 11.619-.054.626-.161 1.127-.322 1.503-.358.214-1.78.662-4.267 1.341-1.038.286-1.744.724-2.12 1.315v.241l.027.697c0 .072.018.304.054.698.393 0 1.02-.035 1.878-.107 2.594-.25 4.678-.376 6.252-.376 2.97 0 5.099.071 6.387.214 1.377.18 3.05.268 5.018.268.358 0 .662-.009.912-.026.054-.34.081-.6.081-.778 0-.09-.045-.537-.134-1.342A7.19 7.19 0 0026 38.586a66.925 66.925 0 01-1.153-.322c-.501-.144-.895-.26-1.181-.35-.286-.089-.447-.133-.483-.133-.715-.126-1.511-.412-2.388-.86a7.189 7.189 0 01-.295-2.28l.027-3.945-.08-9.634v-8.907l-.028-4.078c-.036-.698.036-1.914.215-3.65.59-.09 1.19-.134 1.798-.134.77 0 1.762-.009 2.979-.027a202.49 202.49 0 012.777-.027c.635 0 1.015.018 1.14.054.25.072.492.242.725.51.035.036.089.295.16.778.072.483.175 1.069.31 1.757.134.69.272 1.248.416 1.678.518 1.52 1.001 2.665 1.448 3.435.519-.054 1.128-.215 1.825-.484.072-.34.107-.796.107-1.368l.027-1.557-.027-2.682-.027-3.53zM46.798 34.347h-2.147V6.869h2.147c.59 0 .966-.165 1.127-.496.161-.331.063-.73-.295-1.195L44.25.832c-.358-.466-.797-.698-1.315-.698-.518 0-.957.232-1.314.698l-3.382 4.346c-.357.466-.455.864-.295 1.195.16.33.537.496 1.127.496h2.147v27.478H39.07c-.59 0-.966.165-1.127.497-.16.33-.062.729.295 1.194l3.382 4.347c.357.465.796.697 1.314.697.519 0 .957-.232 1.315-.697l3.381-4.347c.358-.465.456-.864.295-1.194-.16-.332-.536-.497-1.127-.497z"
+                                        _fill="#00f"></path>
+                                </svg>
+                                <h3 class="eHeaderTitle">Subtitle</h3>
+                            </div>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <form [formGroup]="productForm">
+                            <div class="eBodyBlock custom-scrollbar">
+                                <div class="sidebar-settings-layer-text">
+                                    <div class="sidebar-settings-row">
+                                        <div class="sidebar-settings-text">
+                                            <div class="sidebar-settings-text__title">Text </div>
+                                            <div class="el-textarea el-input--small">
+                                                <textarea autocomplete="off" debounce="1000" maxlength="2000"
+                                                    class="el-textarea__inner" name="productName" id="productName"
+                                                    formControlName="productName" (keyup)="productSave()"
+                                                    style="min-height: 32px; height: 32px;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar-settings-row d-flex">
+                                        <div class="w-50 pr-5px">
+                                            <div class="bSettingBlock w-100">
+                                                <div class="sidebar-settings-title">Font family</div>
+                                                <div class="el-select w-100 el-select--small">
+                                                    <div class="el-input el-input--small el-input--suffix">
+                                                        <select class="el-input__inner" name="productSubtitleFont"
+                                                            id="productSubtitleFont"
+                                                            formControlName="productSubtitleFont"
+                                                            (change)="productSave()">
+                                                            <option value="" hidden>Select Subtitle Font</option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Aleo, sans-serif"
+                                                                style="font-family: Aleo, sans-serif;">
+                                                                <span>Aleo</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Amatic SC, sans-serif"
+                                                                style="font-family: Amatic SC, sans-serif;">
+                                                                <span>Amatic SC</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Anton, sans-serif"
+                                                                style="font-family: Anton, sans-serif;">
+                                                                <span>Anton</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Cabin, sans-serif"
+                                                                style="font-family: Cabin, sans-serif;">
+                                                                <span>Cabin</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Charm, sans-serif"
+                                                                style="font-family: Charm, sans-serif;">
+                                                                <span>Charm</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Dancing Script, sans-serif"
+                                                                style="font-family: Dancing Script, sans-serif;">
+                                                                <span>Dancing Script</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Dosis, sans-serif"
+                                                                style="font-family: Dosis, sans-serif;">
+                                                                <span>Dosis</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Eczar, sans-serif"
+                                                                style="font-family: Eczar, sans-serif;">
+                                                                <span>Eczar</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Itim, sans-serif"
+                                                                style="font-family: Itim, sans-serif;">
+                                                                <span>Itim</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Kanit, sans-serif"
+                                                                style="font-family: Kanit, sans-serif;">
+                                                                <span>Kanit</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Lato, sans-serif"
+                                                                style="font-family: Lato, sans-serif;">
+                                                                <span>Lato</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Lobster, sans-serif"
+                                                                style="font-family: Lobster, sans-serif;">
+                                                                <span>Lobster</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Major Mono Display, sans-serif"
+                                                                style="font-family: Major Mono Display, sans-serif;">
+                                                                <span>Major Mono Display</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Montserrat, sans-serif"
+                                                                style="font-family: Montserrat, sans-serif;">
+                                                                <span>Montserrat</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item" selected
+                                                                value="Noto Serif JP, sans-serif"
+                                                                style="font-family: Noto Serif JP, sans-serif;">
+                                                                <span>Noto Serif JP</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Open Sans, sans-serif"
+                                                                style="font-family: Open Sans, sans-serif;">
+                                                                <span>Open Sans</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Oswald, sans-serif"
+                                                                style="font-family: Oswald, sans-serif;">
+                                                                <span>Oswald</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Pacifico, sans-serif"
+                                                                style="font-family: Pacifico, sans-serif;">
+                                                                <span>Pacifico</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Poppins, sans-serif"
+                                                                style="font-family: Poppins, sans-serif;">
+                                                                <span>Poppins</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Pridi, sans-serif"
+                                                                style="font-family: Pridi, sans-serif;">
+                                                                <span>Pridi</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Quicksand, sans-serif"
+                                                                style="font-family: Quicksand, sans-serif;">
+                                                                <span>Quicksand</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Raleway, sans-serif"
+                                                                style="font-family: Raleway, sans-serif;">
+                                                                <span>Raleway</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Righteous, sans-serif"
+                                                                style="font-family: Righteous, sans-serif;">
+                                                                <span>Righteous</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Roboto Condensed, sans-serif"
+                                                                style="font-family: Roboto Condensed, sans-serif;">
+                                                                <span>Roboto Condensed</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Roboto, sans-serif"
+                                                                style="font-family: Roboto, sans-serif;">
+                                                                <span>Roboto</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Rubik, sans-serif"
+                                                                style="font-family: Rubik, sans-serif;">
+                                                                <span>Rubik</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Thasadith, sans-serif"
+                                                                style="font-family: Thasadith, sans-serif;">
+                                                                <span>Thasadith</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Work Sans, sans-serif"
+                                                                style="font-family: Work Sans, sans-serif;">
+                                                                <span>Work Sans</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="29LT Bukra"
+                                                                style="font-family: 29LT Bukra;">
+                                                                <span>29LT Bukra</span>
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-50 pl-5px">
+                                            <div data-v-6f245d18="" class="bSettingBlock">
+                                                <div data-v-6f245d18="" class="sidebar-settings-title">Font size</div>
+                                                <div data-v-6f245d18=""
+                                                    class="eInput el-input-number el-input-number--small">
+                                                    <span role="button" class="el-input-number__decrease">
+                                                        <i (click)="decrementSubtitleSize()">
+                                                            <strong>-</strong>
+                                                        </i>
+                                                    </span>
+                                                    <span role="button" class="el-input-number__increase"
+                                                        (click)="incrementSubtitleSize()">
+                                                        <i>
+                                                            <strong>+</strong>
+                                                        </i>
+                                                    </span>
+                                                    <div class="el-input el-input--small">
+                                                        <input type="text" name="productSubtitleSize"
+                                                            id="productSubtitleSize" value="{{this.pNameS}}"
+                                                            formControlName="productSubtitleSize"
+                                                            (keyup)="productSave()" autocomplete="off"
+                                                            class="el-input__inner" role="spinbutton">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar-settings-row d-flex">
+                                        <div class="col-lg-12 pr-5px">
+                                            <div data-v-312d3545="" class="bSettingBlock">
+                                                <div data-v-312d3545="" class="sidebar-settings-title">Font color</div>
+                                                <div data-v-312d3545="" class="eColorInput d-flex flex-row">
+                                                    <input type="color" name="productSubtitleColor"
+                                                        id="productSubtitleColor" formControlName="productSubtitleColor"
+                                                        (change)="productSave()">
+                                                    <div data-v-312d3545=""
+                                                        class="eColorText d-flex align-items-center">
+                                                        rgba(238,28,36,1)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight3" aria-labelledby="offcanvasRightLabel3">
+            <div class="offcanvas-body0">
+                <div class="bSidebarWrap d-flex flex-column">
+                    <div class="eSidebarLayersWrap custom-scrollbar00">
+                        <div class="eHeaderBlock d-flex flex-row justify-content-between">
+                            <div class="eHeaderTitleWrap d-flex align-items-center">
+                                <svg version="1.1" viewBox="0 0 48 42" class="eHeaderTitleWrap_icon svg-icon svg-fill"
+                                    style="width: 14px; height: 12px;">
+                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                        d="M34.293 2.83V.028a9.958 9.958 0 00-.75-.027l-1.128.027-.188.214a2.195 2.195 0 01-.563.43c-.25.142-.501.205-.752.187L30 .805h-7.862l-5.77-.027-3.086.027-.51.08H9.284C5.867.885 3.98.84 3.622.751L2.173.026 0 .055v10.277c.215.304.715.698 1.502 1.18.126 0 .31-.116.55-.348a2.01 2.01 0 00.524-.86c.196-.59.411-1.34.644-2.253.232-.912.43-1.584.59-2.013.16-.429.357-.724.59-.885.286-.197.939-.416 1.959-.657 1.02-.242 1.914-.363 2.683-.363 1.968 0 3.292.054 3.971.16a.714.714 0 01.376.162c.072.072.125.206.161.402.036.197.054.707.054 1.53 0 .823-.005 1.74-.014 2.75-.008 1.012-.004 2.072.014 3.18l.134 11.485c.036 4.311-.018 8.185-.161 11.619-.054.626-.161 1.127-.322 1.503-.358.214-1.78.662-4.267 1.341-1.038.286-1.744.724-2.12 1.315v.241l.027.697c0 .072.018.304.054.698.393 0 1.02-.035 1.878-.107 2.594-.25 4.678-.376 6.252-.376 2.97 0 5.099.071 6.387.214 1.377.18 3.05.268 5.018.268.358 0 .662-.009.912-.026.054-.34.081-.6.081-.778 0-.09-.045-.537-.134-1.342A7.19 7.19 0 0026 38.586a66.925 66.925 0 01-1.153-.322c-.501-.144-.895-.26-1.181-.35-.286-.089-.447-.133-.483-.133-.715-.126-1.511-.412-2.388-.86a7.189 7.189 0 01-.295-2.28l.027-3.945-.08-9.634v-8.907l-.028-4.078c-.036-.698.036-1.914.215-3.65.59-.09 1.19-.134 1.798-.134.77 0 1.762-.009 2.979-.027a202.49 202.49 0 012.777-.027c.635 0 1.015.018 1.14.054.25.072.492.242.725.51.035.036.089.295.16.778.072.483.175 1.069.31 1.757.134.69.272 1.248.416 1.678.518 1.52 1.001 2.665 1.448 3.435.519-.054 1.128-.215 1.825-.484.072-.34.107-.796.107-1.368l.027-1.557-.027-2.682-.027-3.53zM46.798 34.347h-2.147V6.869h2.147c.59 0 .966-.165 1.127-.496.161-.331.063-.73-.295-1.195L44.25.832c-.358-.466-.797-.698-1.315-.698-.518 0-.957.232-1.314.698l-3.382 4.346c-.357.466-.455.864-.295 1.195.16.33.537.496 1.127.496h2.147v27.478H39.07c-.59 0-.966.165-1.127.497-.16.33-.062.729.295 1.194l3.382 4.347c.357.465.796.697 1.314.697.519 0 .957-.232 1.315-.697l3.381-4.347c.358-.465.456-.864.295-1.194-.16-.332-.536-.497-1.127-.497z"
+                                        _fill="#00f"></path>
+                                </svg>
+                                <h3 class="eHeaderTitle">Prize Image</h3>
+                            </div>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <form [formGroup]="productForm">
+                            <div class="eBodyBlock custom-scrollbar">
+                                <div class="sidebar-settings-layer-text">
+                                    <div class="sidebar-settings-row">
+                                        <div class="sidebar-settings-text">
+                                            <div class="sidebar-settings-text__title">Image </div>
+                                            <div class="el-textarea el-input--small">
+                                                <div class="form-group" (change)="productSave()">
+                                                    <label>
+                                                        <input type="radio" name="productImg" id="productImg"
+                                                            class="mx-2" formControlName="productImg" value="1">
+                                                        <img src="./assets/images/p-1.png" alt="Option 1"
+                                                            height="100px">
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="productImg" id="productImg"
+                                                            class="mx-2" formControlName="productImg" value="3">
+                                                        <img src="./assets/images/p-3.png" alt="Option 3"
+                                                            height="100px">
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="productImg" id="productImg"
+                                                            class="mx-2" formControlName="productImg" value="4">
+                                                        <img src="./assets/images/p-4.png" alt="Option 4"
+                                                            height="100px">
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="productImg" id="productImg"
+                                                            class="mx-2" formControlName="productImg" value="5">
+                                                        <img src="./assets/images/p-5.png" alt="Option 5"
+                                                            height="100px">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight4" aria-labelledby="offcanvasRightLabel4">
+            <div class="offcanvas-body0">
+                <div class="bSidebarWrap d-flex flex-column">
+                    <div class="eSidebarLayersWrap custom-scrollbar00">
+                        <div class="eHeaderBlock d-flex flex-row justify-content-between">
+                            <div class="eHeaderTitleWrap d-flex align-items-center">
+                                <svg version="1.1" viewBox="0 0 48 42" class="eHeaderTitleWrap_icon svg-icon svg-fill"
+                                    style="width: 14px; height: 12px;">
+                                    <path fill="#A5A5A5" stroke="none" pid="0"
+                                        d="M34.293 2.83V.028a9.958 9.958 0 00-.75-.027l-1.128.027-.188.214a2.195 2.195 0 01-.563.43c-.25.142-.501.205-.752.187L30 .805h-7.862l-5.77-.027-3.086.027-.51.08H9.284C5.867.885 3.98.84 3.622.751L2.173.026 0 .055v10.277c.215.304.715.698 1.502 1.18.126 0 .31-.116.55-.348a2.01 2.01 0 00.524-.86c.196-.59.411-1.34.644-2.253.232-.912.43-1.584.59-2.013.16-.429.357-.724.59-.885.286-.197.939-.416 1.959-.657 1.02-.242 1.914-.363 2.683-.363 1.968 0 3.292.054 3.971.16a.714.714 0 01.376.162c.072.072.125.206.161.402.036.197.054.707.054 1.53 0 .823-.005 1.74-.014 2.75-.008 1.012-.004 2.072.014 3.18l.134 11.485c.036 4.311-.018 8.185-.161 11.619-.054.626-.161 1.127-.322 1.503-.358.214-1.78.662-4.267 1.341-1.038.286-1.744.724-2.12 1.315v.241l.027.697c0 .072.018.304.054.698.393 0 1.02-.035 1.878-.107 2.594-.25 4.678-.376 6.252-.376 2.97 0 5.099.071 6.387.214 1.377.18 3.05.268 5.018.268.358 0 .662-.009.912-.026.054-.34.081-.6.081-.778 0-.09-.045-.537-.134-1.342A7.19 7.19 0 0026 38.586a66.925 66.925 0 01-1.153-.322c-.501-.144-.895-.26-1.181-.35-.286-.089-.447-.133-.483-.133-.715-.126-1.511-.412-2.388-.86a7.189 7.189 0 01-.295-2.28l.027-3.945-.08-9.634v-8.907l-.028-4.078c-.036-.698.036-1.914.215-3.65.59-.09 1.19-.134 1.798-.134.77 0 1.762-.009 2.979-.027a202.49 202.49 0 012.777-.027c.635 0 1.015.018 1.14.054.25.072.492.242.725.51.035.036.089.295.16.778.072.483.175 1.069.31 1.757.134.69.272 1.248.416 1.678.518 1.52 1.001 2.665 1.448 3.435.519-.054 1.128-.215 1.825-.484.072-.34.107-.796.107-1.368l.027-1.557-.027-2.682-.027-3.53zM46.798 34.347h-2.147V6.869h2.147c.59 0 .966-.165 1.127-.496.161-.331.063-.73-.295-1.195L44.25.832c-.358-.466-.797-.698-1.315-.698-.518 0-.957.232-1.314.698l-3.382 4.346c-.357.466-.455.864-.295 1.195.16.33.537.496 1.127.496h2.147v27.478H39.07c-.59 0-.966.165-1.127.497-.16.33-.062.729.295 1.194l3.382 4.347c.357.465.796.697 1.314.697.519 0 .957-.232 1.315-.697l3.381-4.347c.358-.465.456-.864.295-1.194-.16-.332-.536-.497-1.127-.497z"
+                                        _fill="#00f"></path>
+                                </svg>
+                                <h3 class="eHeaderTitle">Prize Timer</h3>
+                            </div>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <form [formGroup]="productForm">
+                            <div class="eBodyBlock custom-scrollbar">
+                                <div class="sidebar-settings-layer-text">
+                                    <div class="sidebar-settings-row">
+                                        <div class="sidebar-settings-text">
+                                            <div class="sidebar-settings-text__title">Time </div>
+                                            <div class="el-textarea el-input--small">
+                                                <select class="form-control" name="productTime" id="productTime"
+                                                    formControlName="productTime" (change)="productSave()">
+                                                    <option value="" hidden>Select Time for Timer</option>
+                                                    <option value="1">1 Minutes</option>
+                                                    <option value="2">2 Minutes</option>
+                                                    <option value="3">3 Minutes</option>
+                                                    <option value="4">4 Minutes</option>
+                                                    <option value="5">5 Minutes</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar-settings-row d-flex">
+                                        <div class="w-50 pr-5px">
+                                            <div class="bSettingBlock w-100">
+                                                <div class="sidebar-settings-title">Font family</div>
+                                                <div class="el-select w-100 el-select--small">
+                                                    <div class="el-input el-input--small el-input--suffix">
+                                                        <select class="el-input__inner" name="productTimeFont"
+                                                            id="productTimeFont" formControlName="productTimeFont"
+                                                            (change)="productSave()">
+                                                            <option value="" hidden>Select Subtitle Font</option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Aleo, sans-serif"
+                                                                style="font-family: Aleo, sans-serif;">
+                                                                <span>Aleo</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Amatic SC, sans-serif"
+                                                                style="font-family: Amatic SC, sans-serif;">
+                                                                <span>Amatic SC</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Anton, sans-serif"
+                                                                style="font-family: Anton, sans-serif;">
+                                                                <span>Anton</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Cabin, sans-serif"
+                                                                style="font-family: Cabin, sans-serif;">
+                                                                <span>Cabin</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Charm, sans-serif"
+                                                                style="font-family: Charm, sans-serif;">
+                                                                <span>Charm</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Dancing Script, sans-serif"
+                                                                style="font-family: Dancing Script, sans-serif;">
+                                                                <span>Dancing Script</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Dosis, sans-serif"
+                                                                style="font-family: Dosis, sans-serif;">
+                                                                <span>Dosis</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Eczar, sans-serif"
+                                                                style="font-family: Eczar, sans-serif;">
+                                                                <span>Eczar</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Itim, sans-serif"
+                                                                style="font-family: Itim, sans-serif;">
+                                                                <span>Itim</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Kanit, sans-serif"
+                                                                style="font-family: Kanit, sans-serif;">
+                                                                <span>Kanit</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Lato, sans-serif"
+                                                                style="font-family: Lato, sans-serif;">
+                                                                <span>Lato</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Lobster, sans-serif"
+                                                                style="font-family: Lobster, sans-serif;">
+                                                                <span>Lobster</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Major Mono Display, sans-serif"
+                                                                style="font-family: Major Mono Display, sans-serif;">
+                                                                <span>Major Mono Display</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Montserrat, sans-serif"
+                                                                style="font-family: Montserrat, sans-serif;">
+                                                                <span>Montserrat</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Noto Serif JP, sans-serif"
+                                                                style="font-family: Noto Serif JP, sans-serif;">
+                                                                <span>Noto Serif JP</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Open Sans, sans-serif"
+                                                                style="font-family: Open Sans, sans-serif;">
+                                                                <span>Open Sans</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Oswald, sans-serif"
+                                                                style="font-family: Oswald, sans-serif;">
+                                                                <span>Oswald</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Pacifico, sans-serif"
+                                                                style="font-family: Pacifico, sans-serif;">
+                                                                <span>Pacifico</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Poppins, sans-serif"
+                                                                style="font-family: Poppins, sans-serif;">
+                                                                <span>Poppins</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Pridi, sans-serif"
+                                                                style="font-family: Pridi, sans-serif;">
+                                                                <span>Pridi</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Quicksand, sans-serif"
+                                                                style="font-family: Quicksand, sans-serif;">
+                                                                <span>Quicksand</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Raleway, sans-serif"
+                                                                style="font-family: Raleway, sans-serif;">
+                                                                <span>Raleway</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Righteous, sans-serif"
+                                                                style="font-family: Righteous, sans-serif;">
+                                                                <span>Righteous</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Roboto Condensed, sans-serif"
+                                                                style="font-family: Roboto Condensed, sans-serif;">
+                                                                <span>Roboto Condensed</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Roboto, sans-serif"
+                                                                style="font-family: Roboto, sans-serif;">
+                                                                <span>Roboto</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Rubik, sans-serif"
+                                                                style="font-family: Rubik, sans-serif;">
+                                                                <span>Rubik</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="Thasadith, sans-serif"
+                                                                style="font-family: Thasadith, sans-serif;">
+                                                                <span>Thasadith</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item" selected
+                                                                value="Work Sans, sans-serif"
+                                                                style="font-family: Work Sans, sans-serif;">
+                                                                <span>Work Sans</span>
+                                                            </option>
+                                                            <option class="el-select-dropdown__item"
+                                                                value="29LT Bukra"
+                                                                style="font-family: 29LT Bukra;">
+                                                                <span>29LT Bukra</span>
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-50 pl-5px">
+                                            <div data-v-6f245d18="" class="bSettingBlock">
+                                                <div data-v-6f245d18="" class="sidebar-settings-title">Font size</div>
+                                                <div data-v-6f245d18=""
+                                                    class="eInput el-input-number el-input-number--small">
+                                                    <span role="button" class="el-input-number__decrease">
+                                                        <i (click)="decrementTimeSize()">
+                                                            <strong>-</strong>
+                                                        </i>
+                                                    </span>
+                                                    <span role="button" class="el-input-number__increase"
+                                                        (click)="incrementTimeSize()">
+                                                        <i>
+                                                            <strong>+</strong>
+                                                        </i>
+                                                    </span>
+                                                    <div class="el-input el-input--small">
+                                                        <input type="text" name="productTimeSize" id="productTimeSize"
+                                                            value="{{this.pTimeS}}" formControlName="productTimeSize"
+                                                            (keyup)="productSave()" autocomplete="off"
+                                                            class="el-input__inner" role="spinbutton">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar-settings-row d-flex">
+                                        <div class="col-lg-12 pr-5px">
+                                            <div data-v-312d3545="" class="bSettingBlock">
+                                                <div data-v-312d3545="" class="sidebar-settings-title">Font color</div>
+                                                <div data-v-312d3545="" class="eColorInput d-flex flex-row">
+                                                    <input type="color" name="productTimeColor" id="productTimeColor"
+                                                        formControlName="productTimeColor" (change)="productSave()">
+                                                    <div data-v-312d3545=""
+                                                        class="eColorText d-flex align-items-center">
+                                                        rgba(238,28,36,1)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="instalogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Select Platforms To Go Live</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="followers">
+                        <li *ngIf="!this.facebookConnected">
+                            <div class="friend-meta">
+                                <h4>
+                                    <a class="social-titles">Facebook </a>
+                                </h4>
+                                <a routerLink="/connectSocials"> <button class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Connect</button></a>
+                            </div>
+                        </li>
+                        <li *ngIf="this.facebookConnected">
+                            <div class="friend-meta">
+                                <h4>
+                                    <a class="social-titles">Facebook </a>
+                                </h4>
+                                <input type="checkbox" (click)="addNew('facebook')" id="Facebook"
+                                    [disabled]="!this.facebookConnected">
+                            </div>
+                        </li>
+                        <li *ngIf="!this.instagramConnected">
+                            <div class="friend-meta">
+                                <h4>
+                                    <a class="social-titles">Instagram </a>
+                                </h4>
+                                <a routerLink="/connectSocials"> <button class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Connect</button></a>
+                            </div>
+                        </li>
+                        <li *ngIf="this.instagramConnected">
+                            <div class="friend-meta">
+                                <h4>
+                                    <a class="social-titles">Instagram </a>
+                                </h4>
+                                <input type="checkbox" (click)="addNew('instagram')" id="Instagram"
+                                    [disabled]="!this.instagramConnected">
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn btn-success me-2" data-bs-dismiss="modal" aria-label="Close" [disabled]="isSend" *ngIf="this.socialChannelData"
+                        (click)="goLive(this.socialChannelData)">Go Live</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

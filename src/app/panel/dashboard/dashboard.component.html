@@ -1,0 +1,87 @@
+<app-header></app-header>
+<header class="header0 container-fluid0 sticky-top" id="header0">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container-fluid"> <span class="header_toggle pt-50" data-bs-toggle="offcanvas"
+        data-bs-target="#staticBackdrop" aria-controls="staticBackdrop"> <i class='bx bx-menu' id="header-toggle"></i>
+      </span>
+
+      <span class="h5 text-white">YOUR PROJECTS</span>
+    </div>
+
+  </nav>
+</header>
+
+<!--Container Main start-->
+<div class="pt-4 top-space0 container-fluid0">
+  <div class="col-md-120">
+    <div class="container-fluid">
+      <div class="projects__list d-flex flex-row custom-scrollbar bg-color" *ngIf="triviaGameList.length > 0">
+        <div class="project-block " *ngFor="let game of triviaGameList">
+          <div class="project-block__header">
+            <div class="project-block__title">{{game.gameTitle}} {{game.id}}</div>
+            <span class="icon el-tooltip delete" (click)="deleteTriviaGame(game.triviaId)" title="Delete"
+              name="sidebar-delete" width="20" height="18" aria-describedby="el-tooltip-3241" tabindex="0">
+              <svg version="1.1" viewBox="0 0 15 16" class="svg-icon svg-fill" style="width: 20px; height: 18px;">
+                <path fill="#A5A5A5" stroke="none" pid="0"
+                  d="M13.792 3.048h-3.048v-.762A2.285 2.285 0 008.458 0H6.095A2.285 2.285 0 003.81 2.286v.762H.762a.762.762 0 000 1.523h.762v9.143A2.285 2.285 0 003.81 16h6.934a2.285 2.285 0 002.286-2.286V4.571h.762a.762.762 0 000-1.523zm-8.459-.762c0-.421.341-.762.762-.762h2.363c.421 0 .762.34.762.762v.762H5.333v-.762zm6.173 11.428c0 .421-.341.762-.762.762H3.81a.762.762 0 01-.762-.762V4.571h8.458v9.143z"
+                  _fill="#A5A5A5"></path>
+                <rect fill="#A5A5A5" stroke="none" pid="1" x="4.87" y="5.979" width="1.5" height="6.896" rx=".75"
+                  _fill="#A5A5A5"></rect>
+                <rect fill="#A5A5A5" stroke="none" pid="2" x="8.183" y="5.979" width="1.5" height="6.896" rx=".75"
+                  _fill="#A5A5A5"></rect>
+              </svg>
+            </span>
+          </div>
+          <div class="project-block__body d-flex justify-content-center align-items-center"
+            routerLink="/trivia-game/{{game.triviaId}}">
+            <img src="../../../assets/img/templates/newtriviagame.png" class="project-block__preview">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-style mt-5">
+      <div class="container-fluid">
+        <h4 class="pt-4 pb-4">TEMPLATES</h4>
+
+        <div class="row mb-100 audience row-templates">
+          <div class="col-lg-4 col-md-6 mb-3">
+            <div class="audience-item">
+              <div class="audience-preview">
+                <img class="audience-pic" src="../../../assets/img/templates/newtriviagame.png"
+                  srcset="../../../assets/img/templates/newtriviagame.png 2x" title="Live video trivia quiz game"
+                  alt="Live video trivia quiz game">
+              </div>
+              <div class="audience-title">Live video trivia quiz game</div>
+              <a routerLink="/trivia-game" class="btn btn-primary btn-sm">Open</a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3">
+            <div class="audience-item">
+              <div class="audience-preview">
+                <img class="audience-pic" src="../../../assets/img/templates/newgame.png"
+                  srcset="../../../assets/img/templates/newgame.png 2x" title="Live video last comment game"
+                  alt="Live video last comment game">
+              </div>
+              <div class="audience-title">Live video last comment game</div>
+              <a routerLink="/goLive" class="btn btn-primary btn-sm">Open</a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3">
+            <div class="audience-item">
+              <div class="audience-preview">
+                <img class="audience-pic" src="../../../assets/img/templates/game-1.png"
+                  srcset="../../../assets/img/templates/game-1.png 2x" title="Live video last comment game"
+                  alt="Live video last comment game">
+              </div>
+              <div class="audience-title">Last comment mobile game</div>
+              <a routerLink="/lastComment" class="btn btn-primary btn-sm">Open</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="container">
+
+    <div class="user-card">
+        <div class="login-box">
+            <h1 class="login-box__title">Create a new account</h1>
+
+            <form class="login-form" action="" method="post">
+                <input type="email" name="email" class="email" placeholder="Email" onkeyup="
+                var start = this.selectionStart;
+                var end = this.selectionEnd;
+                this.value = this.value.toLowerCase();
+                this.setSelectionRange(start, end);" />
+                <input type="password" name="password" class="password" id="password" placeholder="Password" />
+                <input type="password" name="confirm_password" class="confirm_password" id="confirm_password"
+                    placeholder="Confirm password" />
+                <input type="submit" name="login" value="Create account" onclick="signUpFb(event)" class="login" />
+            </form>
+
+            <div class="or"></div>
+
+            <a href="" class="login-with-fb" onclick="signUpFb(event)">
+                Sign up with Facebook
+            </a>
+
+            <div class="form-item">
+                <input type="checkbox" id="term-of-s-checkbox" class="styled-checkbox" />
+                <span class="checkbox-label">I have read and agree to the <a href="terms-of-service.html"
+                        target="_blank">terms of service</a> and
+                    <a href="privacy-policy.html" target="_blank">privacy policy</a>. I agree to be contacted about
+                    updates of the service I may like unless I click to opt out</span>
+            </div>
+
+
+        </div>
+
+        <div class="footer">
+            <span>or </span><a class="toggle-link" routerLink="/login">Login</a>
+        </div>
+    </div>
+
+</div>

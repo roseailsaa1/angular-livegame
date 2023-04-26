@@ -1,0 +1,246 @@
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-family: "Open Sans", sans-serif;
+}
+
+a {
+    text-decoration: none
+}
+
+.user-card {
+    width: 350px;
+    margin: 50px auto;
+    position: relative;
+    background: #c3c3c3;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+input {
+    width: 100%;
+    height: 40px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border: 1px solid #dee3e4;
+    padding: 3px 12px;
+    margin: 6px 0;
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #03b3b5;
+    transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+    -webkit-transition: all .5s ease-in-out;
+}
+
+.login-box,
+.signup-box {
+    width: 100%;
+    background: #c3c3c3;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.login-box {
+    padding: 20px 40px;
+    right: 0px;
+}
+
+.signup-box {
+    padding: 40px;
+    right: -350px;
+}
+
+.login,
+.signup {
+    text-align: center;
+    color: #fff;
+    background: #0000ff;
+    line-height: 30px;
+    opacity: 0.95;
+    text-transform: uppercase;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.login:hover {
+    opacity: 1
+}
+
+.or {
+    display: block;
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid #989898;
+    position: relative;
+    margin: 20px 0;
+}
+
+.hr {
+    display: block;
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid #989898;
+    position: relative;
+    margin: 20px 0;
+}
+
+.or:before {
+    content: 'or';
+    width: 40px;
+    height: 18px;
+    position: absolute;
+    top: -5px;
+    right: calc(50% - 20px);
+    background-color: #c3c3c3;
+    text-align: center;
+    line-height: 10px;
+    color: #555
+}
+
+
+.login-with-fb,
+.login-with-google {
+    width: 100%;
+    height: 40px;
+    display: block;
+    margin: 15px 0;
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+    opacity: .95;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.login-with-fb:hover,
+.login-with-fb {
+    background: #3C5DA0
+}
+
+.login-with-fb .icon,
+.login-with-google .icon {
+    float: left;
+    font-size: 21px;
+    width: 50px;
+    height: 26px;
+    margin: 7px;
+    padding: 2px;
+    text-align: center;
+    border-right: 1px solid #fff;
+}
+
+/*** footer ****/
+
+.user-card .footer {
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+    font-family: sans-serif;
+}
+
+.footer a {
+    color: #0000ff;
+}
+
+.login-box__title {
+    text-align: center;
+    font-size: 21px;
+    margin: 10px 0;
+}
+
+.alert {
+    padding: 10px;
+    background: red;
+    border-radius: 3px;
+    color: white;
+    font-size: 13px;
+}
+
+.form-item {
+    display: flex;
+}
+
+.styled-checkbox {
+    width: 25%;
+    position: relative;
+    opacity: 1;
+    margin: 0px 10px 0px 0px !important;
+}
+
+.styled-checkbox+label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+}
+
+.styled-checkbox+label:before {
+    content: '';
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 3px solid #0000ff;
+}
+
+.styled-checkbox:hover+label:before {
+    background: #ffffff;
+}
+
+.styled-checkbox:focus+label:before {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+}
+
+.styled-checkbox:checked+label:before {
+    background: #ffffff;
+}
+
+.styled-checkbox:disabled+label {
+    color: #b8b8b8;
+    cursor: auto;
+}
+
+.styled-checkbox:disabled+label:before {
+    box-shadow: none;
+    background: #ddd;
+}
+
+.styled-checkbox:checked+label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    background: #0000ff;
+    width: 2px;
+    height: 2px;
+    box-shadow: 2px 0 0 #0000ff, 4px 0 0 #0000ff, 4px -2px 0 #0000ff, 4px -4px 0 #0000ff, 4px -6px 0 #0000ff, 4px -8px 0 #0000ff;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.checkbox-label {
+    font-size: 13px;
+}

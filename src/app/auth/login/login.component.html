@@ -1,0 +1,32 @@
+
+
+<div class="container">
+
+    <div class="user-card">
+        <div class="login-box">
+            <h1 class="login-box__title">Login</h1>
+
+            <form class="login-form" action="" method="post">
+                <input type="email" name="email" class="email" placeholder="Email" />
+                <input type="password" name="password" class="password" placeholder="Password" />
+                <input type="submit" name="login" value="Login" class="login" />
+            </form>
+
+            <div class="or"></div>
+
+            <a (click)="loginWithFacebook()" class="login-with-fb">
+                Login with Facebook
+            </a>
+        </div>
+
+        <div class="footer mb-4">
+            <span>or </span><a class="toggle-link" routerLink="/signup">Create a new account</a>
+
+            <div class="hr"></div>
+            <a routerLink="/forgot-password" class="toggle-link" style="margin-bottom: 15px; display: inline-block">Reset
+                password</a>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,15 @@
+<div class="container text-center">
+    <h1 class="mt-4 mb-5">2 Minutes Game</h1>
+    <!-- <h1 class="mt-4 mb-5">{{this.timeLeft}}</h1> -->
+    <div *ngIf="!isLoggedin">
+        <button type="button" (click)="loginWithFacebook()" class="btn btn-primary btn-block">Signin with Facebook</button>
+    </div>
+    <!-- <br> -->
+    <!-- <div *ngIf="isLoggedin === true">        
+        <button type="button" routerLink="/goLive" class="btn btn-primary">Go Live</button>
+        <br>
+        <button type="button" routerLink="/dashboard" class="btn btn-primary mt-2">Dashboard</button>
+        <br>
+        <button type="button" (click)="logout()" class="btn btn-primary mt-2">Logout</button>
+    </div> -->
+</div>

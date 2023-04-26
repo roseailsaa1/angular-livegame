@@ -1,0 +1,42 @@
+<div class="offcanvas offcanvas-start" style="background-color: #EC6608; width: 250px;" data-bs-scroll="true"
+        data-bs-backdrop="false" tabindex="-1" id="staticBackdrop" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+                <a routerLink="/dashboard" class="nav_logo"> <span
+                                class="nav_logo-name"><img src="../../../assets/img/logo.png"></span> </a>
+
+                <button type="button" style=" margin-top: -70px !important;" class="btn-close"
+                        data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+                <nav class="nav">
+                        <div>
+                                <div class="nav_list">
+                                        <a routerLink="/dashboard" class="nav_link"> <i
+                                                        class='bx bx-message-square-detail nav_icon'></i> <span
+                                                        class="nav_name">Dashboard</span> </a>
+                                        <a routerLink="/trivia-game" class="nav_link"> <i
+                                                        class='bx bx-bookmark nav_icon'></i> <span
+                                                        class="nav_name">Trivia Quiz<br> Game</span> </a>
+                                        <a routerLink="/goLive" class="nav_link"> <i
+                                                        class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Last
+                                                        Comment<br> Game</span> </a>
+                                        <a routerLink="/lastComment" class="nav_link"> <i
+                                                        class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Last
+                                                        Comment <br> Mobile Game</span>
+                                        </a>
+                                        <!-- <a routerLink="/broadcast" class="nav_link"> <i
+                                                        class='bx bx-bookmark nav_icon'></i> <span
+                                                        class="nav_name">Broadcasts</span> </a>
+                                        <a routerLink="/profile" class="nav_link"> <i class='bx bx-user nav_icon'></i>
+                                                <span class="nav_name">Account Settings</span> </a> -->
+                                        <a routerLink="/connectSocials" class="nav_link"> <i
+                                                        class='bx bx bx-folder nav_icon'></i> <span
+                                                        class="nav_name">Connect Social<br>
+                                                        Platforms</span> </a>
+                                </div>
+                        </div>
+                        <a (click)="logout()" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span
+                                        class="nav_name">SignOut</span> </a>
+                </nav>
+        </div>
+</div>

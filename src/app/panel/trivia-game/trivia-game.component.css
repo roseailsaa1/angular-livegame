@@ -1,0 +1,75 @@
+input.formColor {
+    height: 38px;
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        margin: calc(var(--header-height) + 1rem) 0 0 0;
+        padding-left: auto !important;
+    }
+}
+
+.custom-scrollbar {
+    overflow-y: scroll;
+    height: 100vh;
+}
+
+
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+
+.border-style {
+    border: 1px solid #d5d3ff;
+    padding: 15px 15px 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.btn0.btn-primary0 {
+    background: blue;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    padding: 8px 10px;
+}
+
+a.btn.btn-outline-primary.el-button.w-100.el-button--default {
+    text-decoration: none;
+}
+
+
+
+.friend-meta {
+    display: inline-block;
+    padding-left: 10px;
+    vertical-align: middle;
+    width: 79%;
+}
+
+ul.followers li {
+    list-style: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.friend-meta>h4 {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 0;
+    width: 60%;
+}
+
+@font-face {
+    font-family: '29LT Bukra';
+    src: url('../../../assets/font/29LTBukra-Medium.woff2') format('woff2'),
+        url('../../../assets/font/29LTBukra-Medium.woff') format('woff'),
+        url('../../../assets/font/29LTBukra-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
